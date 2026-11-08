@@ -1,0 +1,12 @@
+<div class="warhammer-gm-suite-chat">
+  <h4>{{localize "WHGM.Group.ChatTitle" test=test}}</h4>
+  <p>{{localize "WHGM.Group.Passed" passed=passed rolled=rolled}}</p>
+  <table class="whgm-results">
+    {{#each rows}}
+      <tr class="{{#if skipped}}skipped{{else}}{{#if success}}pass{{else}}fail{{/if}}{{/if}}">
+        <td>{{name}}</td>
+        {{#if skipped}}<td colspan="2">{{skipped}}</td>{{else}}<td>{{detail}}</td><td class="score">{{scoreText}}</td>{{/if}}
+      </tr>
+    {{/each}}
+  </table>
+</div>

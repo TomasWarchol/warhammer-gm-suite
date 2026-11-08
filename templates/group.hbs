@@ -1,0 +1,79 @@
+<section class="tab {{tab.cssClass}}" data-tab="group" data-group="main">
+  {{> "modules/warhammer-gm-suite/templates/party.hbs" showStats=false}}
+
+  <fieldset>
+    <legend>{{localize "WHGM.Group.Test"}}</legend>
+    {{#if quick.length}}
+      <div class="whgm-chips">
+        {{#each quick}}<button type="button" data-action="quickTest" data-test="{{id}}" data-label="{{label}}">{{label}}</button>{{/each}}
+      </div>
+    {{/if}}
+    <div class="form-group">
+      <label>{{localize "WHGM.Group.Choose"}}</label>
+      {{#if freeText}}
+        <input type="text" list="whgm-tests" data-state="test" value="{{state.test}}" placeholder="{{localize 'WHGM.Group.Placeholder'}}">
+        <datalist id="whgm-tests">{{#each groups}}{{#each options}}<option value="{{label}}"></option>{{/each}}{{/each}}</datalist>
+      {{else}}
+        <select data-state="test">
+          {{#each groups}}
+            <optgroup label="{{label}}">
+              {{#each options}}<option value="{{id}}" {{#if (eq id ../../state.test)}}selected{{/if}}>{{label}}</option>{{/each}}
+            </optgroup>
+          {{/each}}
+        </select>
+      {{/if}}
+    </div>
+    {{#if (eq difficulty.kind "select")}}
+      <div class="form-group">
+        <label>{{localize "WHGM.Group.Difficulty"}}</label>
+        <select data-state="difficulty">
+          {{#each difficulty.choices}}<option value="{{id}}" {{#if (eq id ../state.difficulty)}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+      </div>
+    {{/if}}
+    {{#if (eq difficulty.kind "dn")}}
+      <div class="form-group">
+        <label>{{localize "WHGM.Group.DN"}}</label>
+        <input type="number" min="1" data-state="difficulty" value="{{state.difficulty}}">
+      </div>
+      {{#if difficulty.complexity}}
+        <div class="form-group">
+          <label>{{localize "WHGM.Group.Complexity"}}</label>
+          <input type="number" min="1" data-state="complexity" value="{{state.complexity}}">
+        </div>
+      {{/if}}
+    {{/if}}
+    {{#if showModifier}}
+      <div class="form-group">
+        <label>{{localize "WHGM.Group.Modifier"}}</label>
+        <input type="number" step="10" data-state="modifier" value="{{state.modifier}}">
+      </div>
+    {{/if}}
+    <div class="form-group">
+      <label>{{localize "WHGM.Group.RollMode"}}</label>
+      <select data-state="rollMode">
+        {{#each rollModes}}<option value="{{id}}" {{#if (eq id ../state.rollMode)}}selected{{/if}}>{{label}}</option>{{/each}}
+      </select>
+    </div>
+    <div class="whgm-checks">
+      <label><input type="checkbox" data-state="showDialog" {{checked state.showDialog}}> {{localize "WHGM.Group.ShowDialog"}}</label>
+    </div>
+    <div class="whgm-buttons">
+      <button type="button" data-action="runTest"><i class="fa-solid fa-dice-d20"></i> {{localize "WHGM.Group.Run"}}</button>
+    </div>
+  </fieldset>
+
+  {{#if results}}
+    <fieldset>
+      <legend>{{results.test}} – {{localize "WHGM.Group.Passed" passed=results.passed rolled=results.rolled}}</legend>
+      <table class="whgm-results">
+        {{#each results.rows}}
+          <tr class="{{#if skipped}}skipped{{else}}{{#if success}}pass{{else}}fail{{/if}}{{/if}}">
+            <td>{{name}}</td>
+            {{#if skipped}}<td colspan="2">{{skipped}}</td>{{else}}<td>{{detail}}</td><td class="score">{{scoreText}}</td>{{/if}}
+          </tr>
+        {{/each}}
+      </table>
+    </fieldset>
+  {{/if}}
+</section>

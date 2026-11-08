@@ -1,0 +1,23 @@
+<div class="form-group">
+  <label>{{localize "WHGM.Party.Label"}}</label>
+  <select data-state="mode">
+    {{#each modes}}<option value="{{id}}" {{#if (eq id ../state.mode)}}selected{{/if}}>{{label}}</option>{{/each}}
+  </select>
+</div>
+{{#if rows.length}}
+  <ul class="whgm-party">
+    {{#each rows}}
+      <li>
+        <input type="checkbox" data-exclude="{{id}}" {{checked selected}}>
+        <img src="{{img}}" alt="">
+        <span class="name">{{name}}</span>
+        {{#if ../showStats}}
+          {{#if xp}}<span class="stat" data-tooltip="{{localize 'WHGM.Party.XpTooltip'}}"><i class="fa-solid fa-star"></i> {{xp.available}} / {{xp.total}}</span>{{/if}}
+          {{#if resource}}<span class="stat" data-tooltip="{{../refresh.column}}"><i class="fa-solid fa-clover"></i> {{resource.value}} / {{resource.target}}</span>{{/if}}
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p class="hint">{{localize "WHGM.Party.Empty"}}</p>
+{{/if}}

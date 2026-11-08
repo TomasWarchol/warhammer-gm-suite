@@ -1,0 +1,46 @@
+<section class="tab {{tab.cssClass}}" data-tab="session" data-group="main">
+  {{> "modules/warhammer-gm-suite/templates/party.hbs" showStats=true}}
+
+  <fieldset>
+    <legend>{{localize "WHGM.Session.Xp"}}</legend>
+    <div class="form-group">
+      <label>{{localize "WHGM.Session.Amount"}}</label>
+      <input type="number" min="0" step="5" data-state="amount" value="{{state.amount}}">
+    </div>
+    <div class="form-group">
+      <label>{{localize "WHGM.Session.Reason"}}</label>
+      <input type="text" data-state="reason" value="{{state.reason}}">
+    </div>
+    <p class="hint">{{localize "WHGM.Session.ReasonHint"}} <em>{{reasonPreview}}</em></p>
+    <div class="whgm-buttons">
+      <button type="button" data-action="award"><i class="fa-solid fa-star"></i> {{localize "WHGM.Session.Award"}}</button>
+      <button type="button" data-action="refresh"><i class="fa-solid fa-rotate"></i> {{refresh.action}}</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>{{localize "WHGM.Session.Turnover"}}</legend>
+    <div class="form-group">
+      <label>{{localize "WHGM.Session.Number"}}</label>
+      <input type="text" data-setting="sessionId" value="{{sessionId}}">
+    </div>
+    <div class="form-group">
+      <label>{{localize "WHGM.Session.HoldingScene"}}</label>
+      <select data-setting="holdingScene">
+        <option value="">—</option>
+        {{#each scenes}}<option value="{{id}}" {{#if (eq id ../holdingScene)}}selected{{/if}}>{{name}}</option>{{/each}}
+      </select>
+    </div>
+    <div class="whgm-checks">
+      <label><input type="checkbox" data-state="exportChat" {{checked state.exportChat}}> {{localize "WHGM.Session.Step.exportChat"}}</label>
+      <label><input type="checkbox" data-state="clearChat" {{checked state.clearChat}}> {{localize "WHGM.Session.Step.clearChat"}}</label>
+      <label><input type="checkbox" data-state="award" {{checked state.award}}> {{localize "WHGM.Session.Step.award"}}</label>
+      <label><input type="checkbox" data-state="refresh" {{checked state.refresh}}> {{refresh.action}}</label>
+      <label><input type="checkbox" data-state="scene" {{checked state.scene}}> {{localize "WHGM.Session.Step.scene"}}</label>
+      <label><input type="checkbox" data-state="advance" {{checked state.advance}}> {{localize "WHGM.Session.Step.advance"}}</label>
+    </div>
+    <div class="whgm-buttons">
+      <button type="button" data-action="endSession"><i class="fa-solid fa-flag-checkered"></i> {{localize "WHGM.Session.End"}}</button>
+    </div>
+  </fieldset>
+</section>

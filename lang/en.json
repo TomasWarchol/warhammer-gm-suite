@@ -1,0 +1,121 @@
+{
+  "WHGM": {
+    "Title": "Warhammer GM Suite",
+    "GMOnly": "Only the GM can open the GM Suite.",
+    "Unsupported": "This system is not supported by the GM Suite.",
+    "Tabs": {
+      "Session": "Session",
+      "Group": "Group Test"
+    },
+    "Party": {
+      "Label": "Characters",
+      "party": "Player characters",
+      "company": "All player-owned characters",
+      "selected": "Selected tokens",
+      "Empty": "No characters match this selection.",
+      "XpTooltip": "Available / total XP"
+    },
+    "Session": {
+      "Xp": "Experience",
+      "Amount": "XP to award",
+      "Reason": "Reason",
+      "DefaultReason": "Session %session%",
+      "ReasonHint": "%session% becomes the session number:",
+      "Award": "Award XP",
+      "NoAmount": "Enter an amount of XP first.",
+      "Awarded": "Awarded {amount} XP to {count} characters.",
+      "Refreshed": "{resource} restored ({count}).",
+      "Turnover": "End of session",
+      "Number": "Session number",
+      "HoldingScene": "Holding scene",
+      "End": "End session",
+      "EndTitle": "End session",
+      "EndConfirm": "The following steps will run:",
+      "ClearWarning": "every chat message will be permanently deleted.",
+      "NothingToDo": "No end-of-session steps are selected.",
+      "StepFailed": "Step failed: {step}. See the console (F12).",
+      "Step": {
+        "exportChat": "Save the chat log to a file",
+        "clearChat": "Clear the chat",
+        "award": "Award XP",
+        "refresh": "Restore the resource",
+        "scene": "Activate the holding scene",
+        "advance": "Advance the session number"
+      },
+      "Summary": {
+        "Ended": "Session {session} has ended.",
+        "Xp": "{amount} XP: {names}.",
+        "Next": "Next session: {session}."
+      }
+    },
+    "Refresh": {
+      "fortune": {
+        "Column": "Fortune",
+        "Action": "Restore Fortune (Fate + Luck)",
+        "Done": "Fortune restored."
+      },
+      "fate": {
+        "Column": "Fate",
+        "Action": "Restore Fate",
+        "Done": "Fate restored."
+      },
+      "wrath": {
+        "Column": "Wrath",
+        "Action": "Set Wrath to 1",
+        "Done": "Wrath set to 1."
+      },
+      "soulfire": {
+        "Column": "Soulfire",
+        "Action": "Refill the party's Soulfire",
+        "Done": "Soulfire refilled."
+      }
+    },
+    "Group": {
+      "Test": "Test",
+      "Choose": "Skill or characteristic",
+      "Placeholder": "Skill (Specialisation)",
+      "Difficulty": "Difficulty",
+      "DN": "DN",
+      "Complexity": "Complexity",
+      "Modifier": "Modifier",
+      "RollMode": "Roll visibility",
+      "ShowDialog": "Show the roll dialog for each character",
+      "Run": "Roll for the group",
+      "NoActors": "Select at least one character.",
+      "NoTest": "Choose a test first.",
+      "Passed": "{passed} of {rolled} passed",
+      "ChatTitle": "Group test: {test}",
+      "Kinds": {
+        "skill": "Skills",
+        "characteristic": "Characteristics",
+        "attribute": "Attributes"
+      },
+      "Skip": {
+        "Untrained": "Untrained (advanced skill)",
+        "UnknownSkill": "Skill not found",
+        "Cancelled": "Cancelled",
+        "Error": "Roll failed (see console)"
+      }
+    },
+    "Settings": {
+      "EnableSessionName": "Session tab",
+      "EnableSessionHint": "XP, restoring resources and the end-of-session routine.",
+      "EnableGroupName": "Group Test tab",
+      "EnableGroupHint": "Secret tests for several characters with one summary for the GM.",
+      "DefaultModeName": "Default character selection",
+      "DefaultModeHint": "Which characters the dashboard lists when it opens.",
+      "DefaultRollModeName": "Default group test visibility",
+      "DefaultRollModeHint": "Who sees the individual test cards. The summary always goes to the GM only.",
+      "AdvancedFallbackName": "Untrained advanced skills use the characteristic",
+      "AdvancedFallbackHint": "When off, characters without the advanced skill are left out of the group test.",
+      "FallbackStepsName": "Difficulty steps for the fallback",
+      "FallbackStepsHint": "How many steps harder the characteristic test is for an untrained advanced skill."
+    },
+    "RollMode": {
+      "publicroll": "Public",
+      "gmroll": "GM and roller only",
+      "blindroll": "Blind (GM only)",
+      "selfroll": "Self only"
+    }
+  }
+}

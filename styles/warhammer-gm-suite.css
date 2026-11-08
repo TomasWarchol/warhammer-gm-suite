@@ -1,0 +1,113 @@
+/* Warhammer GM Suite */
+#warhammer-gm-suite .window-content {
+  padding: 0.5rem 0.75rem;
+  overflow: hidden;
+}
+
+#warhammer-gm-suite .tab {
+  display: none;
+}
+
+#warhammer-gm-suite .tab.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.warhammer-gm-suite .whgm-party {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.warhammer-gm-suite .whgm-party li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2px 4px;
+}
+
+.warhammer-gm-suite .whgm-party img {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+  object-position: top;
+  border: none;
+}
+
+.warhammer-gm-suite .whgm-party .name {
+  flex: 1;
+}
+
+.warhammer-gm-suite .whgm-party .stat {
+  min-width: 4.5rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.warhammer-gm-suite .whgm-checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.15rem 0.75rem;
+}
+
+.warhammer-gm-suite .whgm-checks label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.warhammer-gm-suite .whgm-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.warhammer-gm-suite .whgm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.warhammer-gm-suite .whgm-chips button {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.whgm-results {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.whgm-results td {
+  padding: 2px 4px;
+}
+
+.whgm-results td.score {
+  text-align: right;
+  font-weight: bold;
+}
+
+.whgm-results tr.pass td:first-child {
+  border-left: 3px solid #3a8a3a;
+}
+
+.whgm-results tr.fail td:first-child {
+  border-left: 3px solid #b03030;
+}
+
+.whgm-results tr.skipped {
+  opacity: 0.6;
+}
+
+.warhammer-gm-suite-chat ul {
+  margin: 0;
+  padding-left: 1rem;
+}

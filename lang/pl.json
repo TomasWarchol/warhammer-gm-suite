@@ -1,0 +1,121 @@
+{
+  "WHGM": {
+    "Title": "Warhammer GM Suite",
+    "GMOnly": "Panel może otworzyć tylko MG.",
+    "Unsupported": "GM Suite nie obsługuje tego systemu.",
+    "Tabs": {
+      "Session": "Sesja",
+      "Group": "Test grupowy"
+    },
+    "Party": {
+      "Label": "Postacie",
+      "party": "Postacie graczy",
+      "company": "Wszystkie postacie należące do graczy",
+      "selected": "Zaznaczone tokeny",
+      "Empty": "Żadna postać nie pasuje do tego wyboru.",
+      "XpTooltip": "PD dostępne / łącznie"
+    },
+    "Session": {
+      "Xp": "Doświadczenie",
+      "Amount": "PD do przyznania",
+      "Reason": "Powód",
+      "DefaultReason": "Sesja %session%",
+      "ReasonHint": "%session% zamienia się w numer sesji:",
+      "Award": "Przyznaj PD",
+      "NoAmount": "Najpierw podaj liczbę PD.",
+      "Awarded": "Przyznano {amount} PD ({count} postaci).",
+      "Refreshed": "{resource}: odnowiono ({count}).",
+      "Turnover": "Koniec sesji",
+      "Number": "Numer sesji",
+      "HoldingScene": "Scena przejściowa",
+      "End": "Zakończ sesję",
+      "EndTitle": "Koniec sesji",
+      "EndConfirm": "Zostaną wykonane te kroki:",
+      "ClearWarning": "wszystkie wiadomości czatu zostaną trwale usunięte.",
+      "NothingToDo": "Nie zaznaczono żadnego kroku końca sesji.",
+      "StepFailed": "Krok nieudany: {step}. Szczegóły w konsoli (F12).",
+      "Step": {
+        "exportChat": "Zapisz czat do pliku",
+        "clearChat": "Wyczyść czat",
+        "award": "Przyznaj PD",
+        "refresh": "Odnów zasób",
+        "scene": "Aktywuj scenę przejściową",
+        "advance": "Zwiększ numer sesji"
+      },
+      "Summary": {
+        "Ended": "Sesja {session} zakończona.",
+        "Xp": "{amount} PD: {names}.",
+        "Next": "Następna sesja: {session}."
+      }
+    },
+    "Refresh": {
+      "fortune": {
+        "Column": "Szczęście",
+        "Action": "Odnów Punkty Szczęścia (Przeznaczenie + talent)",
+        "Done": "Punkty Szczęścia odnowione."
+      },
+      "fate": {
+        "Column": "Los",
+        "Action": "Odnów Punkty Losu",
+        "Done": "Punkty Losu odnowione."
+      },
+      "wrath": {
+        "Column": "Gniew",
+        "Action": "Ustaw Gniew na 1",
+        "Done": "Gniew ustawiony na 1."
+      },
+      "soulfire": {
+        "Column": "Ogień Duszy",
+        "Action": "Uzupełnij Ogień Duszy drużyny",
+        "Done": "Ogień Duszy uzupełniony."
+      }
+    },
+    "Group": {
+      "Test": "Test",
+      "Choose": "Umiejętność lub cecha",
+      "Placeholder": "Umiejętność (Specjalizacja)",
+      "Difficulty": "Trudność",
+      "DN": "ST",
+      "Complexity": "Złożoność",
+      "Modifier": "Modyfikator",
+      "RollMode": "Widoczność rzutów",
+      "ShowDialog": "Pokazuj okno rzutu dla każdej postaci",
+      "Run": "Rzuć za grupę",
+      "NoActors": "Wybierz co najmniej jedną postać.",
+      "NoTest": "Najpierw wybierz test.",
+      "Passed": "Zdało: {passed} z {rolled}",
+      "ChatTitle": "Test grupowy: {test}",
+      "Kinds": {
+        "skill": "Umiejętności",
+        "characteristic": "Cechy",
+        "attribute": "Atrybuty"
+      },
+      "Skip": {
+        "Untrained": "Brak szkolenia (umiejętność zaawansowana)",
+        "UnknownSkill": "Nie znaleziono umiejętności",
+        "Cancelled": "Anulowano",
+        "Error": "Rzut nieudany (patrz konsola)"
+      }
+    },
+    "Settings": {
+      "EnableSessionName": "Zakładka Sesja",
+      "EnableSessionHint": "PD, odnawianie zasobów i procedura końca sesji.",
+      "EnableGroupName": "Zakładka Test grupowy",
+      "EnableGroupHint": "Tajne testy kilku postaci ze wspólnym podsumowaniem dla MG.",
+      "DefaultModeName": "Domyślny wybór postaci",
+      "DefaultModeHint": "Które postacie panel pokazuje po otwarciu.",
+      "DefaultRollModeName": "Domyślna widoczność testów grupowych",
+      "DefaultRollModeHint": "Kto widzi karty poszczególnych testów. Podsumowanie zawsze trafia tylko do MG.",
+      "AdvancedFallbackName": "Brak umiejętności zaawansowanej: test cechy",
+      "AdvancedFallbackHint": "Gdy wyłączone, postacie bez umiejętności zaawansowanej są pomijane w teście grupowym.",
+      "FallbackStepsName": "Stopnie trudności przy teście cechy",
+      "FallbackStepsHint": "O ile stopni trudniejszy jest test cechy zastępujący nieznaną umiejętność zaawansowaną."
+    },
+    "RollMode": {
+      "publicroll": "Publiczny",
+      "gmroll": "Tylko MG i rzucający",
+      "blindroll": "Ukryty (tylko MG)",
+      "selfroll": "Tylko dla siebie"
+    }
+  }
+}
