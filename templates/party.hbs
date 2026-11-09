@@ -11,6 +11,12 @@
         <input type="checkbox" data-exclude="{{id}}" {{checked selected}}>
         <img src="{{img}}" alt="">
         <span class="name">{{name}}</span>
+        {{#if ../showCorruption}}
+          <span class="stat" data-tooltip="{{localize 'WHGM.Whispers.Corruption'}}"><i class="fa-solid fa-skull"></i> {{corruption}}</span>
+        {{/if}}
+        {{#if ../showHealth}}
+          {{#if health}}<span class="stat" data-tooltip="{{../healthLabel}}"><i class="fa-solid fa-heart"></i> {{health.value}}{{#if health.max}} / {{health.max}}{{/if}}</span>{{/if}}
+        {{/if}}
         {{#if ../showStats}}
           {{#if xp}}<span class="stat" data-tooltip="{{localize 'WHGM.Party.XpTooltip'}}"><i class="fa-solid fa-star"></i> {{xp.available}} / {{xp.total}}</span>{{/if}}
           {{#if resource}}<span class="stat" data-tooltip="{{../refresh.column}}"><i class="fa-solid fa-clover"></i> {{resource.value}} / {{resource.target}}</span>{{/if}}

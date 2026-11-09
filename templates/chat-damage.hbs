@@ -1,0 +1,13 @@
+<div class="warhammer-gm-suite-chat">
+  <h4>{{localize "WHGM.Damage.ChatTitle"}}{{#if formula}}: {{formula}}{{/if}}</h4>
+  <table class="whgm-results">
+    {{#each rows}}
+      <tr class="{{#if failed}}fail{{else}}pass{{/if}}">
+        <td>{{name}}</td>
+        <td class="score">{{amount}}</td>
+        <td>{{change}}</td>
+      </tr>
+      {{#if text}}<tr><td colspan="3" class="hint">{{text}}</td></tr>{{/if}}
+    {{/each}}
+  </table>
+</div>

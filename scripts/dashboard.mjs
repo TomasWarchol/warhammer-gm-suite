@@ -9,10 +9,14 @@ import { expandReason } from "./session-data.mjs";
 import { resolveTest } from "./group-data.mjs";
 import { awardXp, endSession, refreshResource } from "./session.mjs";
 import { runGroupTest } from "./group-test.mjs";
+import { applyGroupDamage } from "./damage.mjs";
+import { damageOptions, hasAdditive, stepPool } from "./damage-data.mjs";
+import { LIGHT_SETS, lightData, lightRange, sightData, visionPresets, visionRange } from "./token-presets.mjs";
+import { sendWhispers } from "./whispers.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 const template = (name) => `modules/${MODULE_ID}/templates/${name}.hbs`;
-const TAB_SETTINGS = { session: "enableSession", group: "enableGroup" };
+const TAB_SETTINGS = { session: "enableSession", group: "enableGroup", combat: "enableCombat", tokens: "enableTokens", whispers: "enableWhispers" };
 
 export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   /** Adapter aktywnego systemu, ustawiany przy starcie modułu. */
@@ -29,21 +33,33 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       refresh: GMDashboard.#onRefresh,
       endSession: GMDashboard.#onEndSession,
       runTest: GMDashboard.#onRunTest,
-      quickTest: GMDashboard.#onQuickTest
+      quickTest: GMDashboard.#onQuickTest,
+      applyDamage: GMDashboard.#onApplyDamage,
+      poolStep: GMDashboard.#onPoolStep,
+      poolReset: GMDashboard.#onPoolReset,
+      lightPreset: GMDashboard.#onLightPreset,
+      visionPreset: GMDashboard.#onVisionPreset,
+      sendWhisper: GMDashboard.#onSendWhisper
     }
   };
 
   static PARTS = {
     tabs: { template: "templates/generic/tab-navigation.hbs" },
     session: { template: template("session"), scrollable: [""] },
-    group: { template: template("group"), scrollable: [""] }
+    group: { template: template("group"), scrollable: [""] },
+    combat: { template: template("combat"), scrollable: [""] },
+    tokens: { template: template("tokens"), scrollable: [""] },
+    whispers: { template: template("whispers"), scrollable: [""] }
   };
 
   static TABS = {
     main: {
       tabs: [
         { id: "session", icon: "fa-solid fa-flag-checkered", label: `${I18N}.Tabs.Session` },
-        { id: "group", icon: "fa-solid fa-dice-d20", label: `${I18N}.Tabs.Group` }
+        { id: "group", icon: "fa-solid fa-dice-d20", label: `${I18N}.Tabs.Group` },
+        { id: "combat", icon: "fa-solid fa-burst", label: `${I18N}.Tabs.Combat` },
+        { id: "tokens", icon: "fa-solid fa-lightbulb", label: `${I18N}.Tabs.Tokens` },
+        { id: "whispers", icon: "fa-solid fa-ghost", label: `${I18N}.Tabs.Whispers` }
       ],
       initial: "session"
     }
@@ -72,18 +88,24 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   state = null;
   catalog = null;
   lastResults = null;
+  lastDamage = null;
   busy = false;
+
+  /** Szepty istnieją tylko w systemach ze Spaczeniem, a ich ustawienie jest wtedy zarejestrowane. */
+  #tabEnabled(id) {
+    return (id !== "whispers" || Boolean(this.adapter.whispers)) && getSetting(TAB_SETTINGS[id]);
+  }
 
   _getTabsConfig(group) {
     const config = foundry.utils.deepClone(super._getTabsConfig(group));
-    config.tabs = config.tabs.filter((tab) => getSetting(TAB_SETTINGS[tab.id]));
+    config.tabs = config.tabs.filter((tab) => this.#tabEnabled(tab.id));
     if (!config.tabs.some((tab) => tab.id === config.initial)) config.initial = config.tabs[0]?.id;
     return config;
   }
 
   _configureRenderParts(options) {
     const parts = super._configureRenderParts(options);
-    for (const [tab, setting] of Object.entries(TAB_SETTINGS)) if (!getSetting(setting)) delete parts[tab];
+    for (const tab of Object.keys(TAB_SETTINGS)) if (!this.#tabEnabled(tab)) delete parts[tab];
     return parts;
   }
 
@@ -105,7 +127,12 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       complexity: difficulty?.complexity ?? 1,
       modifier: 0,
       rollMode: getSetting("defaultRollMode"),
-      showDialog: false
+      showDialog: false,
+      dmgFormula: "",
+      dmgPerActor: false,
+      tokenRange: 0,
+      whisperAsk: "",
+      ...Object.fromEntries(this.adapter.damage.fields.map((f) => [`dmg_${f.id}`, f.initial]))
     };
   }
 
@@ -132,7 +159,9 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       img: actor.img,
       selected: !state.excluded.has(actor.id),
       xp: adapter.xp.read(actor),
-      resource: adapter.refresh.perActor ? adapter.refresh.read(actor, game) : null
+      resource: adapter.refresh.perActor ? adapter.refresh.read(actor, game) : null,
+      health: adapter.damage.read(actor),
+      corruption: adapter.whispers?.read(actor)
     }));
     const difficulty = adapter.tests.difficulty(game);
     const groups = ["skill", "characteristic", "attribute"]
@@ -155,7 +184,23 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       groups,
       quick: adapter.tests.quick(game, this.catalog),
       rollModes: Object.entries(rollModes()).map(([id, label]) => ({ id, label: game.i18n.localize(label) })),
-      results: this.lastResults
+      results: this.lastResults,
+      healthLabel: t(`Damage.Stat.${adapter.damage.stat}`),
+      damage: {
+        results: this.lastDamage,
+        fields: adapter.damage.fields.map((f) => ({
+          ...f,
+          label: t(`Damage.Field.${f.id}`),
+          value: state[`dmg_${f.id}`],
+          choices: f.choices?.(game)
+        }))
+      },
+      tokens: {
+        count: canvas.tokens?.controlled.length ?? 0,
+        lights: LIGHT_SETS[adapter.lightSet].map((id) => ({ id, label: t(`Tokens.Lights.${id}`), range: lightRange(id) })),
+        vision: visionPresets().map((id) => ({ id, label: t(`Tokens.Visions.${id}`), range: visionRange(id) }))
+      },
+      pool: adapter.pools ? { title: t(`Pools.${adapter.pools.key}`), rows: this.#poolEntries() } : null
     });
   }
 
@@ -163,6 +208,11 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     const part = await super._preparePartContext(partId, context, options);
     part.tab = part.tabs?.[partId];
     return part;
+  }
+
+  /** Pozycje puli walki z etykietami gotowymi do wyświetlenia. */
+  #poolEntries() {
+    return this.adapter.pools.list(game, this.#party()).map((entry) => ({ ...entry, label: entry.labelKey ? t(entry.labelKey) : entry.label }));
   }
 
   #defaultTest() {
@@ -247,6 +297,59 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   static #onQuickTest(_event, target) {
     this.state.test = this.adapter.tests.freeText ? target.dataset.label : target.dataset.test;
     this.render();
+  }
+
+  static async #onApplyDamage() {
+    const { state, adapter } = this;
+    const actors = this.#selected();
+    if (!actors.length) return ui.notifications.warn(t("Group.NoActors"));
+    const formula = String(state.dmgFormula ?? "").trim();
+    const options = damageOptions(adapter.damage.fields, state);
+    if (formula && !Roll.validate(formula)) return ui.notifications.warn(t("Damage.BadFormula"));
+    if (!formula && !hasAdditive(adapter.damage.fields, options)) return ui.notifications.warn(t("Damage.NoAmount"));
+    await this.#exclusive(async () => {
+      this.lastDamage = await applyGroupDamage(adapter, actors, { formula, perActor: state.dmgPerActor, options });
+    });
+  }
+
+  static async #onPoolStep(_event, target) {
+    const entry = this.#poolEntries().find((e) => e.id === target.dataset.id);
+    if (!entry) return;
+    await this.#exclusive(() => this.adapter.pools.set(game, entry, stepPool(entry.value, Number(target.dataset.delta), entry.max)));
+  }
+
+  static async #onPoolReset() {
+    await this.#exclusive(async () => {
+      for (const entry of this.#poolEntries()) await this.adapter.pools.set(game, entry, 0);
+    });
+  }
+
+  /** Zmienia dane zaznaczonych tokenów jedną aktualizacją sceny. */
+  async #updateTokens(field, data) {
+    const tokens = canvas.tokens?.controlled ?? [];
+    if (!tokens.length) return ui.notifications.warn(t("Tokens.NoneSelected"));
+    await canvas.scene.updateEmbeddedDocuments("Token", tokens.map((token) => ({ _id: token.id, [field]: data })));
+    ui.notifications.info(t("Tokens.Updated", { count: tokens.length }));
+  }
+
+  static #onLightPreset(_event, target) {
+    return this.#updateTokens("light", lightData(target.dataset.id, this.state.tokenRange));
+  }
+
+  static #onVisionPreset(_event, target) {
+    return this.#updateTokens("sight", sightData(target.dataset.id, this.state.tokenRange));
+  }
+
+  static async #onSendWhisper() {
+    const ask = String(this.state.whisperAsk ?? "").trim();
+    if (!ask) return ui.notifications.warn(t("Whispers.NoText"));
+    const actors = this.#selected();
+    if (!actors.length) return ui.notifications.warn(t("Group.NoActors"));
+    await this.#exclusive(async () => {
+      const { send, noCorruption, noPlayer } = await sendWhispers(this.adapter, actors, ask);
+      ui.notifications.info(t("Whispers.Sent", { sent: send.length, noCorruption, noPlayer }));
+      if (send.length) this.state.whisperAsk = "";
+    });
   }
 
   static async #onRunTest() {

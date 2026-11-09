@@ -35,8 +35,16 @@ export function fortuneTarget(actor, luckNames) {
 
 const luckNames = (ctx) => ["Luck", ctx.i18n.localize("NAME.Luck")];
 
+/** Rodzaj obrażeń systemu dla opcji pomijania Punktów Pancerza i Bonusu z Wytrzymałości. */
+export function damageType({ ignoreAP, ignoreTB }, types) {
+  if (ignoreAP && ignoreTB) return types.IGNORE_ALL;
+  if (ignoreAP) return types.IGNORE_AP;
+  return ignoreTB ? types.IGNORE_TB : types.NORMAL;
+}
+
 export default {
   id: "wfrp4e",
+  lightSet: "wfrp",
   partyTypes: ["character"],
   companyTypes: ["npc", "creature"],
 
@@ -62,6 +70,45 @@ export default {
       return fortune ? { value: fortune.value, target: fortuneTarget(actor, luckNames(ctx)) } : null;
     },
     apply: (actor, target) => actor.update({ "system.status.fortune.value": target })
+  },
+
+  damage: {
+    stat: "wounds",
+    fields: [
+      { id: "location", type: "select", initial: "body", choices: (ctx) => Object.entries(ctx.wfrp4e.config.locations).map(([id, label]) => ({ id, label: ctx.i18n.localize(label) })) },
+      { id: "ignoreAP", type: "checkbox", initial: false },
+      { id: "ignoreTB", type: "checkbox", initial: false },
+      { id: "minimumOne", type: "checkbox", initial: true }
+    ],
+    read: (actor) => {
+      const wounds = actor.system.status?.wounds;
+      return wounds ? { value: wounds.value, max: wounds.max } : null;
+    },
+    apply: (actor, amount, options, ctx) => actor.applyBasicDamage(amount, {
+      damageType: damageType(options, ctx.wfrp4e.config.DAMAGE_TYPE),
+      minimumOne: options.minimumOne,
+      loc: options.location,
+      suppressMsg: true
+    })
+  },
+
+  // Przewaga: system przechowuje ją na postaci albo (zasada opcjonalna) wspólnie dla stron walki
+  pools: {
+    key: "advantage",
+    list(ctx, party) {
+      if (ctx.settings.get("wfrp4e", "useGroupAdvantage")) {
+        const values = ctx.settings.get("wfrp4e", "groupAdvantageValues");
+        return ["players", "enemies"].map((id) => ({ id, labelKey: `Pools.Side.${id}`, value: values[id] }));
+      }
+      const actors = ctx.combat ? ctx.combat.combatants.contents.map((c) => c.actor).filter(Boolean) : party;
+      return [...new Map(actors.map((a) => [a.uuid, a])).values()].map((actor) => ({ id: actor.uuid, label: actor.name, actor, value: actor.system.status.advantage.value, max: actor.system.status.advantage.max }));
+    },
+    set: (ctx, entry, value) => (entry.actor ? entry.actor.update({ "system.status.advantage.value": value }) : ctx.wfrp4e.utility.updateGroupAdvantage({ [entry.id]: value }))
+  },
+
+  whispers: {
+    read: (actor) => actor.system.status?.corruption?.value ?? 0,
+    change: (actor, delta) => actor.update({ "system.status.corruption.value": actor.system.status.corruption.value + delta })
   },
 
   tests: {
@@ -109,6 +156,12 @@ export default {
       else test = await actor.setupCharacteristic(plan.key, entry.kind === "characteristic" ? context : { ...context, appendTitle: ` – ${entry.label}` });
       if (test) await test.roll();
       return { test };
+    },
+
+    value(actor, entry) {
+      const plan = planTest(entry, actor.itemTypes?.skill ?? [], { fallback: true });
+      if (plan.kind === "skill") return plan.skill.system.total?.value;
+      return plan.kind === "characteristic" ? actor.system.characteristics?.[plan.key]?.value : undefined;
     },
 
     read: readPercentile

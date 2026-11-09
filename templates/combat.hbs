@@ -1,0 +1,73 @@
+<section class="tab {{tab.cssClass}}" data-tab="combat" data-group="main">
+  {{> "modules/warhammer-gm-suite/templates/party.hbs" showHealth=true}}
+
+  <fieldset>
+    <legend>{{localize "WHGM.Damage.Title"}}</legend>
+    <div class="form-group">
+      <label>{{localize "WHGM.Damage.Formula"}}</label>
+      <input type="text" data-state="dmgFormula" value="{{state.dmgFormula}}" placeholder="1d10+4">
+    </div>
+    {{#each damage.fields}}
+      {{#if (eq type "number")}}
+        <div class="form-group">
+          <label>{{label}}</label>
+          <input type="number" min="0" data-state="dmg_{{id}}" value="{{value}}">
+        </div>
+      {{/if}}
+      {{#if (eq type "select")}}
+        <div class="form-group">
+          <label>{{label}}</label>
+          <select data-state="dmg_{{id}}">
+            {{#each choices}}<option value="{{id}}" {{#if (eq id ../value)}}selected{{/if}}>{{label}}</option>{{/each}}
+          </select>
+        </div>
+      {{/if}}
+    {{/each}}
+    <div class="whgm-checks">
+      {{#each damage.fields}}
+        {{#if (eq type "checkbox")}}
+          <label><input type="checkbox" data-state="dmg_{{id}}" {{checked value}}> {{label}}</label>
+        {{/if}}
+      {{/each}}
+      <label><input type="checkbox" data-state="dmgPerActor" {{checked state.dmgPerActor}}> {{localize "WHGM.Damage.PerActor"}}</label>
+    </div>
+    <div class="whgm-buttons">
+      <button type="button" data-action="applyDamage"><i class="fa-solid fa-burst"></i> {{localize "WHGM.Damage.Apply"}}</button>
+    </div>
+    {{#if damage.results}}
+      <table class="whgm-results">
+        {{#each damage.results.rows}}
+          <tr class="{{#if failed}}fail{{else}}pass{{/if}}">
+            <td>{{name}}</td>
+            <td class="score">{{amount}}</td>
+            <td>{{change}}</td>
+          </tr>
+          {{#if text}}<tr><td colspan="3" class="hint">{{text}}</td></tr>{{/if}}
+        {{/each}}
+      </table>
+    {{/if}}
+  </fieldset>
+
+  {{#if pool}}
+    <fieldset>
+      <legend>{{pool.title}}</legend>
+      {{#if pool.rows.length}}
+        <ul class="whgm-pool">
+          {{#each pool.rows}}
+            <li>
+              <span class="name">{{label}}</span>
+              <button type="button" data-action="poolStep" data-id="{{id}}" data-delta="-1" aria-label="-1"><i class="fa-solid fa-minus"></i></button>
+              <span class="value">{{value}}{{#if max}} / {{max}}{{/if}}</span>
+              <button type="button" data-action="poolStep" data-id="{{id}}" data-delta="1" aria-label="+1"><i class="fa-solid fa-plus"></i></button>
+            </li>
+          {{/each}}
+        </ul>
+        <div class="whgm-buttons">
+          <button type="button" data-action="poolReset"><i class="fa-solid fa-rotate-left"></i> {{localize "WHGM.Pools.Reset"}}</button>
+        </div>
+      {{else}}
+        <p class="hint">{{localize "WHGM.Pools.Empty"}}</p>
+      {{/if}}
+    </fieldset>
+  {{/if}}
+</section>

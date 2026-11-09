@@ -1,0 +1,23 @@
+<section class="tab {{tab.cssClass}}" data-tab="tokens" data-group="main">
+  <p class="hint">{{localize "WHGM.Tokens.Selected" count=tokens.count}}</p>
+  <div class="form-group">
+    <label>{{localize "WHGM.Tokens.Range"}}</label>
+    <input type="number" min="0" data-state="tokenRange" value="{{state.tokenRange}}">
+    <p class="hint">{{localize "WHGM.Tokens.RangeHint"}}</p>
+  </div>
+
+  <fieldset>
+    <legend>{{localize "WHGM.Tokens.Light"}}</legend>
+    <div class="whgm-chips">
+      {{#each tokens.lights}}<button type="button" data-action="lightPreset" data-id="{{id}}">{{label}} ({{range}})</button>{{/each}}
+      <button type="button" data-action="lightPreset" data-id="off"><i class="fa-solid fa-power-off"></i> {{localize "WHGM.Tokens.LightOff"}}</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>{{localize "WHGM.Tokens.Vision"}}</legend>
+    <div class="whgm-chips">
+      {{#each tokens.vision}}<button type="button" data-action="visionPreset" data-id="{{id}}">{{label}}{{#if range}} ({{range}}){{/if}}</button>{{/each}}
+    </div>
+  </fieldset>
+</section>

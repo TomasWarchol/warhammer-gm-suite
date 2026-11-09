@@ -5,7 +5,10 @@
     "Unsupported": "GM Suite nie obsługuje tego systemu.",
     "Tabs": {
       "Session": "Sesja",
-      "Group": "Test grupowy"
+      "Group": "Test grupowy",
+      "Combat": "Walka",
+      "Tokens": "Światło i wizja",
+      "Whispers": "Mroczne Szepty"
     },
     "Party": {
       "Label": "Postacie",
@@ -72,7 +75,7 @@
     },
     "Group": {
       "Test": "Test",
-      "Choose": "Umiejętność lub cecha",
+      "Choose": "Test do rzutu",
       "Placeholder": "Umiejętność (Specjalizacja)",
       "Difficulty": "Trudność",
       "DN": "ST",
@@ -97,11 +100,110 @@
         "Error": "Rzut nieudany (patrz konsola)"
       }
     },
+    "Damage": {
+      "Title": "Obrażenia",
+      "Formula": "Obrażenia (liczba lub wzór)",
+      "PerActor": "Osobny rzut dla każdej postaci",
+      "Apply": "Zadaj obrażenia",
+      "NoAmount": "Najpierw wpisz obrażenia.",
+      "BadFormula": "Ten wzór obrażeń jest nieprawidłowy.",
+      "Failed": "Nie udało się zadać obrażeń (patrz konsola)",
+      "ChatTitle": "Zadane obrażenia",
+      "Stat": {
+        "wounds": "Rany",
+        "resilience": "Odporność",
+        "toughness": "Wytrzymałość"
+      },
+      "Field": {
+        "location": "Lokacja trafienia",
+        "ignoreAP": "Pomiń punkty pancerza",
+        "ignoreTB": "Pomiń Bonus z Wytrzymałości",
+        "minimumOne": "Co najmniej 1 Rana",
+        "ignoreArmour": "Pomiń pancerz",
+        "ignoreResilience": "Pomiń Odporność",
+        "penetrating": "Przebijanie",
+        "ineffective": "Nieskuteczne (pancerz liczony podwójnie)",
+        "ap": "Przebicie pancerza",
+        "shock": "Szok",
+        "mortal": "Rany śmiertelne"
+      }
+    },
+    "Pools": {
+      "advantage": "Przewaga",
+      "superiority": "Przewaga drużyny (Superiority)",
+      "gloryRuin": "Chwała i Zguba",
+      "Reset": "Wyzeruj",
+      "Empty": "Brak postaci do pokazania.",
+      "Side": {
+        "players": "Gracze",
+        "enemies": "Wrogowie",
+        "glory": "Chwała",
+        "ruin": "Zguba"
+      }
+    },
+    "Tokens": {
+      "Selected": "Zaznaczone tokeny: {count}. Presety działają na tokeny zaznaczone na scenie.",
+      "Range": "Własny zasięg",
+      "RangeHint": "Zastępuje zasięg presetu. Zostaw 0, aby użyć presetu. Zasięgi są w jednostkach sceny.",
+      "Light": "Źródło światła",
+      "LightOff": "Bez światła",
+      "Vision": "Wizja",
+      "NoneSelected": "Zaznacz na scenie co najmniej jeden token.",
+      "Updated": "Zaktualizowane tokeny: {count}.",
+      "Lights": {
+        "candle": "Świeca",
+        "torch": "Pochodnia",
+        "lantern": "Latarnia",
+        "stormBroad": "Latarnia sztormowa, szeroki snop",
+        "stormNarrow": "Latarnia sztormowa, wąski snop",
+        "pettyLight": "Światło (magia pomniejsza)",
+        "glowGlobe": "Kula świetlna",
+        "stablight": "Lampa stabilna",
+        "lampPack": "Lampa przenośna"
+      },
+      "Visions": {
+        "normal": "Zwykła",
+        "nightVision": "Widzenie w ciemności",
+        "darkVision": "Mroczne widzenie"
+      }
+    },
+    "Whispers": {
+      "Title": "Mroczne Szepty",
+      "Hint": "Pokusa tylko dla gracza. Kusić można wyłącznie postacie ze Spaczeniem.",
+      "Placeholder": "Czego żądają Mroczni Bogowie?",
+      "Send": "Wyślij zaznaczonym postaciom",
+      "NoText": "Najpierw napisz treść pokusy.",
+      "Sent": "Wysłano: {sent}. Pominięte bez Spaczenia: {noCorruption}. Pominięte bez gracza: {noPlayer}.",
+      "Corruption": "Spaczenie",
+      "Speaker": "Głos w ciemności",
+      "CardTitle": "{name}, coś szepcze do ciebie…",
+      "Accept": "Usłuchaj",
+      "Refuse": "Oprzyj się",
+      "Accepted": "{name} ulega szeptowi.",
+      "Refused": "{name} opiera się szeptowi.",
+      "Lowered": "Spaczenie zmniejszone o 1.",
+      "NoGM": "Aby odpowiedzieć, musi być połączony MG.",
+      "Status": {
+        "accepted": "Usłuchano",
+        "refused": "Odrzucono",
+        "waiting": "Czeka na odpowiedź gracza"
+      }
+    },
     "Settings": {
       "EnableSessionName": "Zakładka Sesja",
       "EnableSessionHint": "PD, odnawianie zasobów i procedura końca sesji.",
       "EnableGroupName": "Zakładka Test grupowy",
       "EnableGroupHint": "Tajne testy kilku postaci ze wspólnym podsumowaniem dla MG.",
+      "EnableCombatName": "Zakładka Walka",
+      "EnableCombatHint": "Obrażenia dla kilku postaci oraz pule walki systemu, np. Przewaga.",
+      "EnableTokensName": "Zakładka Światło i wizja",
+      "EnableTokensHint": "Presety światła i wizji dla zaznaczonych tokenów.",
+      "EnableTokenHudName": "Testy w Token HUD",
+      "EnableTokenHudHint": "Szybkie testy z wartościami w HUD tokena, dla każdego właściciela postaci.",
+      "EnableWhispersName": "Zakładka Mroczne Szepty",
+      "EnableWhispersHint": "Pokusy szeptane graczom, którzy odpowiadają na karcie czatu.",
+      "WhisperRemoveCorruptionName": "Uleganie usuwa 1 punkt Spaczenia",
+      "WhisperRemoveCorruptionHint": "Gdy wyłączone, MG zmienia Spaczenie ręcznie.",
       "DefaultModeName": "Domyślny wybór postaci",
       "DefaultModeHint": "Które postacie panel pokazuje po otwarciu.",
       "DefaultRollModeName": "Domyślna widoczność testów grupowych",

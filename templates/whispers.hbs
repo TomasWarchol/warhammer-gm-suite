@@ -1,0 +1,12 @@
+<section class="tab {{tab.cssClass}}" data-tab="whispers" data-group="main">
+  {{> "modules/warhammer-gm-suite/templates/party.hbs" showCorruption=true}}
+
+  <fieldset>
+    <legend>{{localize "WHGM.Whispers.Title"}}</legend>
+    <p class="hint">{{localize "WHGM.Whispers.Hint"}}</p>
+    <textarea data-state="whisperAsk" rows="4" placeholder="{{localize 'WHGM.Whispers.Placeholder'}}">{{state.whisperAsk}}</textarea>
+    <div class="whgm-buttons">
+      <button type="button" data-action="sendWhisper"><i class="fa-solid fa-ghost"></i> {{localize "WHGM.Whispers.Send"}}</button>
+    </div>
+  </fieldset>
+</section>

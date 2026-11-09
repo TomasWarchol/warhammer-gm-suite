@@ -5,6 +5,7 @@ import { entries, quickFrom, testContext } from "./shared.mjs";
 
 export default {
   id: "whtow",
+  lightSet: "fantasy",
   partyTypes: ["character"],
   companyTypes: ["npc"],
 
@@ -24,12 +25,21 @@ export default {
     apply: (actor, target) => actor.update({ "system.fate.current": target })
   },
 
+  // Obrażenia powyżej Odporności dają Ranę, pozostałe Oszołomienie; kartę na czacie wysyła sam system
+  damage: {
+    stat: "resilience",
+    fields: [{ id: "ignoreArmour", type: "checkbox", initial: false }],
+    read: (actor) => (actor.system.resilience ? { value: actor.system.resilience.value } : null),
+    apply: (actor, amount, options) => actor.system.applyDamage(amount, { ignoreArmour: options.ignoreArmour })
+  },
+
   tests: {
     freeText: false,
     modifier: false,
     catalog: async (ctx) => entries(ctx.oldworld.config.skills, "skill", "skill", (k) => ctx.i18n.localize(k)),
     quick: (_ctx, catalog) => quickFrom(["skill:awareness", "skill:survival", "skill:endurance", "skill:athletics"], catalog),
     difficulty: () => null,
+    value: (actor, entry) => actor.system.skills?.[entry.key]?.value,
 
     async run(actor, entry, options) {
       return { test: await actor.setupSkillTest(entry.key, testContext(options)) };

@@ -35,9 +35,29 @@ Każdą zakładkę można wyłączyć w ustawieniach modułu. Lista na górze wy
 * Moduł rzuca za każdą zaznaczoną postać i szepcze MG jedno podsumowanie, od najlepszych wyników. Domyślnie okno rzutu jest pomijane.
 * WFRP: postać bez umiejętności podstawowej testuje cechę. Postać bez umiejętności zaawansowanej jest pomijana albo (ustawienie) testuje cechę z wyższą trudnością.
 
+## ⚔️ Zakładka Walka
+
+* Zadawanie obrażeń zaznaczonym postaciom: liczba albo wzór z kośćmi, jeden rzut dla wszystkich albo osobny dla każdej postaci. Wynik liczy system według własnych zasad, a MG dostaje jedno podsumowanie.
+* Opcje zależą od systemu: lokacja trafienia, pominięcie pancerza lub Bonusu z Wytrzymałości (WFRP), pominięcie pancerza (The Old World, Imperium Maledictum), przebicie pancerza, Szok i Rany śmiertelne (Wrath & Glory), Przebijanie i Nieskuteczne (Soulbound).
+* Pule walki, jeśli system je ma: Przewaga w WFRP (każdy walczący albo obie strony przy zasadzie Przewagi Grupowej), Superiority w Imperium Maledictum, Chwała i Zguba w Wrath & Glory.
+
+## 💡 Zakładka Światło i wizja
+
+* Presety światła i wizji dla tokenów zaznaczonych na scenie, z opcjonalnym własnym zasięgiem. WFRP ma własne źródła światła, pozostałe systemy krótszą listę.
+* Zasięgi są w jednostkach sceny. Tylko wartości WFRP pochodzą z zasad, pozostałe to punkt wyjścia.
+
+## 👁️ Zakładka Mroczne Szepty
+
+Tylko w systemach ze Spaczeniem (WFRP, Imperium Maledictum, Wrath & Glory). MG pisze pokusę, a każda zaznaczona postać ze Spaczeniem dostaje ją jako prywatną kartę z przyciskami **Usłuchaj** i **Oprzyj się**. MG dostaje odpowiedź, a posłuchanie szeptu usuwa 1 punkt Spaczenia (można to wyłączyć).
+
+## 🎯 Token HUD
+
+Każdy właściciel postaci widzi przy HUD tokena jej szybkie testy z wartościami. Kliknięcie otwiera okno rzutu systemu.
+
 ## ⚙️ Ustawienia (świat)
 
-* Włączanie zakładek Sesja i Test grupowy
+* Włączanie każdej zakładki i testów w Token HUD
+* Czy posłuchanie Mrocznego Szeptu usuwa Spaczenie
 * Domyślny wybór postaci
 * Domyślna widoczność kart testów grupowych
 * WFRP: test cechy zamiast nieznanej umiejętności zaawansowanej i o ile stopni jest trudniejszy

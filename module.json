@@ -1,8 +1,8 @@
 {
   "id": "warhammer-gm-suite",
   "title": "Warhammer GM Suite",
-  "description": "One GM dashboard for every Warhammer system (WFRP 4e/5e, The Old World, Imperium Maledictum, Wrath & Glory, Soulbound): session turnover and secret group tests, adapted to the active system.",
-  "version": "0.1.0",
+  "description": "One GM dashboard for every Warhammer system (WFRP 4e/5e, The Old World, Imperium Maledictum, Wrath & Glory, Soulbound): session turnover, secret group tests, damage for several characters, combat pools, light and vision presets, Dark Whispers and tests on the Token HUD, adapted to the active system.",
+  "version": "0.3.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14",

@@ -11,7 +11,7 @@ export function entries(map, kind, group, localize) {
 
 /** Pola okna rzutu wspólne dla systemów opartych na warhammer-lib. */
 export function testContext({ rollMode, skipDialog }, fields = {}) {
-  return { skipDialog, fields: { rollMode, ...fields } };
+  return { skipDialog, fields: { ...(rollMode ? { rollMode } : {}), ...fields } };
 }
 
 /** Wiersz wyniku dla systemów z k100 i Poziomami Sukcesu (WFRP, Imperium Maledictum). */

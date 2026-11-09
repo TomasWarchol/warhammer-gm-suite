@@ -35,9 +35,29 @@ Each tab can be switched off in the module settings. The list at the top chooses
 * The module rolls for every ticked character and whispers one summary to the GM, best results first. By default the roll dialog is skipped.
 * WFRP: a character without a basic skill tests the characteristic. A character without an advanced skill is left out, or (setting) tests the characteristic at a harder difficulty.
 
+## ⚔️ Combat tab
+
+* Apply damage to the ticked characters: a number or a dice formula, rolled once for everyone or separately for each. The system calculates the result by its own rules, and the GM gets one summary.
+* The options follow the system: hit location, ignoring armour or Toughness Bonus (WFRP), ignoring armour (The Old World, Imperium Maledictum), AP, Shock and Mortal Wounds (Wrath & Glory), Penetrating and Ineffective (Soulbound).
+* Combat pools, where the system has them: Advantage in WFRP (each combatant, or both sides under the Group Advantage rule), Superiority in Imperium Maledictum, Glory and Ruin in Wrath & Glory.
+
+## 💡 Light & Vision tab
+
+* Light and vision presets for the tokens selected on the scene, with an optional custom range. WFRP has its own light sources, the other systems a shorter list.
+* Ranges are in scene units. Only the WFRP values come from the rules, the rest are a starting point.
+
+## 👁️ Dark Whispers tab
+
+Only in systems with Corruption (WFRP, Imperium Maledictum, Wrath & Glory). The GM writes a temptation, and each ticked character with Corruption gets it as a private card with **Obey** and **Resist** buttons. The GM is told the answer, and obeying removes 1 Corruption (this can be switched off).
+
+## 🎯 Token HUD
+
+Anyone who owns the character gets its quick tests with their values next to the token's HUD. A click opens the system's roll dialog.
+
 ## ⚙️ Settings (world)
 
-* Session tab and Group Test tab on/off
+* Each tab on/off, and the tests on the Token HUD
+* Whether obeying a Dark Whisper removes Corruption
 * Default character selection
 * Default visibility of group test cards
 * WFRP: fallback for untrained advanced skills and how many difficulty steps it costs

@@ -4,8 +4,12 @@
  */
 import { entries, quickFrom, testContext } from "./shared.mjs";
 
+/** System przegląda `item.damageEffects` bez sprawdzenia, czy broń istnieje, więc obrażenia bez broni wymagają pustego zastępnika. */
+const NO_ITEM = { damageEffects: [], runScripts: () => [] };
+
 export default {
   id: "age-of-sigmar-soulbound",
+  lightSet: "fantasy",
   partyTypes: ["player"],
   companyTypes: ["npc"],
 
@@ -25,6 +29,22 @@ export default {
     apply: (actor, target) => actor.update({ "system.soulfire.value": target })
   },
 
+  damage: {
+    stat: "toughness",
+    fields: [
+      { id: "penetrating", type: "number", initial: 0 },
+      { id: "ignoreArmour", type: "checkbox", initial: false },
+      { id: "ineffective", type: "checkbox", initial: false }
+    ],
+    read: (actor) => {
+      const toughness = actor.system.combat?.health?.toughness;
+      return toughness ? { value: toughness.value, max: toughness.max } : null;
+    },
+    apply: async (actor, amount, options) => {
+      await actor.system.applyDamage(amount, { ignoreArmour: options.ignoreArmour, penetrating: options.penetrating, ineffective: options.ineffective, item: NO_ITEM });
+    }
+  },
+
   tests: {
     freeText: false,
     modifier: false,
@@ -34,6 +54,7 @@ export default {
     },
     quick: (_ctx, catalog) => quickFrom(["skill:awareness", "skill:determination", "skill:survival", "skill:athletics"], catalog),
     difficulty: () => ({ kind: "dn", initial: 4, complexity: 1 }),
+    value: (actor, entry) => (entry.kind === "skill" ? actor.system.skills?.[entry.key]?.training : actor.system.attributes?.[entry.key]?.value),
 
     async run(actor, entry, options) {
       const target = entry.kind === "skill" ? { skill: entry.key } : { attribute: entry.key };

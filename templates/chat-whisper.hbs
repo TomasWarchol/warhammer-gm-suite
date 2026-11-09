@@ -1,0 +1,14 @@
+<div class="warhammer-gm-suite-chat whgm-whisper">
+  {{#if report}}
+    <p><strong>{{report}}</strong></p>
+    <blockquote>{{ask}}</blockquote>
+    {{#if lowered}}<p>{{localize "WHGM.Whispers.Lowered"}}</p>{{/if}}
+  {{else}}
+    <h4>{{localize "WHGM.Whispers.CardTitle" name=name}}</h4>
+    <blockquote>{{ask}}</blockquote>
+    <div class="whgm-whisper-buttons">
+      <button type="button" data-answer="accept">{{localize "WHGM.Whispers.Accept"}}</button>
+      <button type="button" data-answer="refuse">{{localize "WHGM.Whispers.Refuse"}}</button>
+    </div>
+  {{/if}}
+</div>

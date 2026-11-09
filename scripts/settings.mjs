@@ -11,6 +11,10 @@ export function registerSettings(adapter) {
   const visible = {
     enableSession: { type: Boolean, default: true },
     enableGroup: { type: Boolean, default: true },
+    enableCombat: { type: Boolean, default: true },
+    enableTokens: { type: Boolean, default: true },
+    enableTokenHud: { type: Boolean, default: true, requiresReload: true },
+    ...(adapter?.whispers ? { enableWhispers: { type: Boolean, default: true }, whisperRemoveCorruption: { type: Boolean, default: true } } : {}),
     defaultMode: { type: String, default: "party", choices: { party: `${I18N}.Party.party`, company: `${I18N}.Party.company` } },
     defaultRollMode: { type: String, default: "gmroll", choices: rollModes() },
     ...adapter?.settings

@@ -5,7 +5,10 @@
     "Unsupported": "This system is not supported by the GM Suite.",
     "Tabs": {
       "Session": "Session",
-      "Group": "Group Test"
+      "Group": "Group Test",
+      "Combat": "Combat",
+      "Tokens": "Light & Vision",
+      "Whispers": "Dark Whispers"
     },
     "Party": {
       "Label": "Characters",
@@ -72,7 +75,7 @@
     },
     "Group": {
       "Test": "Test",
-      "Choose": "Skill or characteristic",
+      "Choose": "Test to roll",
       "Placeholder": "Skill (Specialisation)",
       "Difficulty": "Difficulty",
       "DN": "DN",
@@ -97,11 +100,110 @@
         "Error": "Roll failed (see console)"
       }
     },
+    "Damage": {
+      "Title": "Damage",
+      "Formula": "Damage (number or formula)",
+      "PerActor": "Roll separately for each character",
+      "Apply": "Apply damage",
+      "NoAmount": "Enter the damage first.",
+      "BadFormula": "This damage formula is not valid.",
+      "Failed": "Could not apply the damage (see console)",
+      "ChatTitle": "Damage applied",
+      "Stat": {
+        "wounds": "Wounds",
+        "resilience": "Resilience",
+        "toughness": "Toughness"
+      },
+      "Field": {
+        "location": "Hit location",
+        "ignoreAP": "Ignore armour points",
+        "ignoreTB": "Ignore Toughness Bonus",
+        "minimumOne": "At least 1 Wound",
+        "ignoreArmour": "Ignore armour",
+        "ignoreResilience": "Ignore Resilience",
+        "penetrating": "Penetrating",
+        "ineffective": "Ineffective (armour counts double)",
+        "ap": "AP",
+        "shock": "Shock",
+        "mortal": "Mortal Wounds"
+      }
+    },
+    "Pools": {
+      "advantage": "Advantage",
+      "superiority": "Superiority",
+      "gloryRuin": "Glory and Ruin",
+      "Reset": "Reset to 0",
+      "Empty": "No characters to show.",
+      "Side": {
+        "players": "Players",
+        "enemies": "Enemies",
+        "glory": "Glory",
+        "ruin": "Ruin"
+      }
+    },
+    "Tokens": {
+      "Selected": "Selected tokens: {count}. Presets apply to the tokens selected on the scene.",
+      "Range": "Custom range",
+      "RangeHint": "Replaces the preset's range. Leave 0 to use the preset. Ranges are in scene units.",
+      "Light": "Light source",
+      "LightOff": "No light",
+      "Vision": "Vision",
+      "NoneSelected": "Select at least one token on the scene.",
+      "Updated": "Updated {count} tokens.",
+      "Lights": {
+        "candle": "Candle",
+        "torch": "Torch",
+        "lantern": "Lantern",
+        "stormBroad": "Storm lantern, broad beam",
+        "stormNarrow": "Storm lantern, narrow beam",
+        "pettyLight": "Light (Petty Magic)",
+        "glowGlobe": "Glow-globe",
+        "stablight": "Stablight",
+        "lampPack": "Lamp pack"
+      },
+      "Visions": {
+        "normal": "Normal",
+        "nightVision": "Night Vision",
+        "darkVision": "Dark Vision"
+      }
+    },
+    "Whispers": {
+      "Title": "Dark Whispers",
+      "Hint": "A temptation for the player alone. Only characters with Corruption can be tempted.",
+      "Placeholder": "What do the Dark Gods ask?",
+      "Send": "Send to the ticked characters",
+      "NoText": "Write the temptation first.",
+      "Sent": "Sent: {sent}. Left out, no Corruption: {noCorruption}. Left out, no player: {noPlayer}.",
+      "Corruption": "Corruption",
+      "Speaker": "A voice in the dark",
+      "CardTitle": "{name}, something whispers to you…",
+      "Accept": "Obey",
+      "Refuse": "Resist",
+      "Accepted": "{name} obeyed the whisper.",
+      "Refused": "{name} resisted the whisper.",
+      "Lowered": "Corruption reduced by 1.",
+      "NoGM": "A GM must be connected to answer.",
+      "Status": {
+        "accepted": "Obeyed",
+        "refused": "Resisted",
+        "waiting": "Waiting for the player's answer"
+      }
+    },
     "Settings": {
       "EnableSessionName": "Session tab",
       "EnableSessionHint": "XP, restoring resources and the end-of-session routine.",
       "EnableGroupName": "Group Test tab",
       "EnableGroupHint": "Secret tests for several characters with one summary for the GM.",
+      "EnableCombatName": "Combat tab",
+      "EnableCombatHint": "Damage for several characters, and the system's combat pools such as Advantage.",
+      "EnableTokensName": "Light & Vision tab",
+      "EnableTokensHint": "Light and vision presets for the selected tokens.",
+      "EnableTokenHudName": "Tests on the Token HUD",
+      "EnableTokenHudHint": "Quick tests with their values on the token's HUD, for anyone who owns the character.",
+      "EnableWhispersName": "Dark Whispers tab",
+      "EnableWhispersHint": "Temptations whispered to players, who answer on the chat card.",
+      "WhisperRemoveCorruptionName": "Obeying removes 1 Corruption",
+      "WhisperRemoveCorruptionHint": "When off, the GM adjusts Corruption by hand.",
       "DefaultModeName": "Default character selection",
       "DefaultModeHint": "Which characters the dashboard lists when it opens.",
       "DefaultRollModeName": "Default group test visibility",

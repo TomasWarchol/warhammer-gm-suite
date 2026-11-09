@@ -9,12 +9,16 @@ import { adapterFor } from "./systems/index.mjs";
 import { GMDashboard } from "./dashboard.mjs";
 import { awardXp, endSession, refreshResource } from "./session.mjs";
 import { runGroupTest } from "./group-test.mjs";
+import { applyGroupDamage } from "./damage.mjs";
+import { registerWhispers, sendWhispers } from "./whispers.mjs";
+import { registerTokenHud } from "./token-hud.mjs";
 
 Hooks.once("init", () => {
   const adapter = adapterFor(game.system.id);
   log.info(adapter ? `init – system ${game.system.id}` : `system ${game.system.id} nie jest obsługiwany`);
   registerSettings(adapter);
   GMDashboard.adapter = adapter;
+  if (adapter?.whispers) registerWhispers(adapter);
   foundry.applications.handlebars.loadTemplates([`modules/${MODULE_ID}/templates/party.hbs`]);
 
   game.modules.get(MODULE_ID).api = {
@@ -22,14 +26,22 @@ Hooks.once("init", () => {
     get adapter() {
       return adapter;
     },
-    /** Otwiera panel; `tab`: "session" albo "group". */
+    /** Otwiera panel; `tab`: "session", "group", "combat", "tokens" albo "whispers". */
     open: (tab) => GMDashboard.open(tab),
     awardXp: (actors, amount, reason) => awardXp(adapter, actors, amount, reason),
     refreshResource: (actors) => refreshResource(adapter, actors),
     endSession: (actors, options) => endSession(adapter, actors, options),
     /** Test grupowy: `entry` to pozycja z `adapter.tests.catalog`. */
-    groupTest: (actors, entry, options) => runGroupTest(adapter, actors, entry, options)
+    groupTest: (actors, entry, options) => runGroupTest(adapter, actors, entry, options),
+    /** Obrażenia: `request` to { formula, perActor, options } z polami z `adapter.damage.fields`. */
+    applyDamage: (actors, request) => applyGroupDamage(adapter, actors, request),
+    /** Mroczne Szepty (tylko systemy ze Spaczeniem). */
+    sendWhispers: (actors, ask) => sendWhispers(adapter, actors, ask)
   };
+});
+
+Hooks.once("ready", () => {
+  if (GMDashboard.adapter) registerTokenHud(GMDashboard.adapter);
 });
 
 // Przycisk panelu w narzędziach tokenów (tylko MG)
@@ -49,4 +61,6 @@ Hooks.on("getSceneControlButtons", (controls) => {
 const refresh = foundry.utils.debounce(() => GMDashboard.refresh(), 150);
 Hooks.on("updateActor", refresh);
 Hooks.on("controlToken", refresh);
+// Pule walki i lista walczących
+for (const hook of ["updateSetting", "createCombat", "deleteCombat", "createCombatant", "deleteCombatant"]) Hooks.on(hook, refresh);
 Hooks.on(`${MODULE_ID}.settingsChanged`, refresh);
