@@ -50,13 +50,17 @@ Każdą zakładkę można wyłączyć w ustawieniach modułu. Lista na górze wy
 
 Tylko w systemach ze Spaczeniem (WFRP, Imperium Maledictum, Wrath & Glory). MG pisze pokusę, a każda zaznaczona postać ze Spaczeniem dostaje ją jako prywatną kartę z przyciskami **Usłuchaj** i **Oprzyj się**. MG dostaje odpowiedź, a posłuchanie szeptu usuwa 1 punkt Spaczenia (można to wyłączyć).
 
-## 🎯 Token HUD
+## 🛒 Kupcy
 
-Każdy właściciel postaci widzi przy HUD tokena jej szybkie testy z wartościami. Kliknięcie otwiera okno rzutu systemu.
+Z aktywnym [Item Piles](https://foundryvtt.com/packages/item-piles) moduł ustawia waluty i ceny każdego systemu oraz ogranicza łupy i handel do przedmiotów fizycznych. Zakładka **Kupcy** albo prawy klik na kupcu w katalogu aktorów uzupełnia jego towar według wielkości osady lub typu świata, a w systemach bez tabeli dostępności według rzadkości. Nie włączaj razem ze starszym *Item Piles: Warhammer Trade*.
+
+## 💬 Komendy czatu
+
+Z aktywnym [Chat Commander](https://foundryvtt.com/packages/_chatcommands) komendy czatu systemu dostają pomoc składni i podpowiedzi z Twojego świata. Komendy są czytane z systemu, więc nowe od razu mają pomoc. Nie włączaj razem ze starszym *WFRP4e – Chat Commands*.
 
 ## ⚙️ Ustawienia (świat)
 
-* Włączanie każdej zakładki i testów w Token HUD
+* Każda zakładka osobno, kupcy i podpowiedzi komend czatu
 * Czy posłuchanie Mrocznego Szeptu usuwa Spaczenie
 * Domyślny wybór postaci
 * Domyślna widoczność kart testów grupowych

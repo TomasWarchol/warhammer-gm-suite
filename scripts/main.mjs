@@ -11,7 +11,9 @@ import { awardXp, endSession, refreshResource } from "./session.mjs";
 import { runGroupTest } from "./group-test.mjs";
 import { applyGroupDamage } from "./damage.mjs";
 import { registerWhispers, sendWhispers } from "./whispers.mjs";
-import { registerTokenHud } from "./token-hud.mjs";
+import { getSetting } from "./settings.mjs";
+import { registerTrade } from "./trade/index.mjs";
+import { registerChatHints } from "./chat/index.mjs";
 
 Hooks.once("init", () => {
   const adapter = adapterFor(game.system.id);
@@ -38,10 +40,9 @@ Hooks.once("init", () => {
     /** Mroczne Szepty (tylko systemy ze Spaczeniem). */
     sendWhispers: (actors, ask) => sendWhispers(adapter, actors, ask)
   };
-});
 
-Hooks.once("ready", () => {
-  if (GMDashboard.adapter) registerTokenHud(GMDashboard.adapter);
+  if (adapter && getSetting("enableMerchants")) registerTrade();
+  if (adapter) registerChatHints(getSetting("enableChatHints"));
 });
 
 // Przycisk panelu w narzędziach tokenów (tylko MG)

@@ -2,7 +2,7 @@
   "id": "warhammer-gm-suite",
   "title": "Warhammer GM Suite",
   "description": "One GM dashboard for every Warhammer system (WFRP 4e/5e, The Old World, Imperium Maledictum, Wrath & Glory, Soulbound): session turnover, secret group tests, damage for several characters, combat pools, light and vision presets, Dark Whispers and tests on the Token HUD, adapted to the active system.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14",
@@ -50,6 +50,24 @@
         "type": "system",
         "compatibility": {
           "minimum": "9.0.0"
+        }
+      }
+    ],
+    "recommends": [
+      {
+        "id": "item-piles",
+        "type": "module",
+        "manifest": "https://github.com/fantasycalendar/FoundryVTT-ItemPiles/releases/latest/download/module.json",
+        "compatibility": {
+          "minimum": "3.3.0"
+        }
+      },
+      {
+        "id": "_chatcommands",
+        "type": "module",
+        "manifest": "https://gitlab.com/woodentavern/foundryvtt-chat-command-lib/-/raw/master/src/module.json",
+        "compatibility": {
+          "minimum": "2.0.6"
         }
       }
     ]

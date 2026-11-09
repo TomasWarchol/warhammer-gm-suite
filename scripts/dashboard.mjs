@@ -13,10 +13,11 @@ import { applyGroupDamage } from "./damage.mjs";
 import { damageOptions, hasAdditive, stepPool } from "./damage-data.mjs";
 import { LIGHT_SETS, lightData, lightRange, sightData, visionPresets, visionRange } from "./token-presets.mjs";
 import { sendWhispers } from "./whispers.mjs";
+import { merchants, openStock, tradeActive } from "./trade/index.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 const template = (name) => `modules/${MODULE_ID}/templates/${name}.hbs`;
-const TAB_SETTINGS = { session: "enableSession", group: "enableGroup", combat: "enableCombat", tokens: "enableTokens", whispers: "enableWhispers" };
+const TAB_SETTINGS = { session: "enableSession", group: "enableGroup", combat: "enableCombat", tokens: "enableTokens", whispers: "enableWhispers", merchants: "enableMerchants" };
 
 export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   /** Adapter aktywnego systemu, ustawiany przy starcie modułu. */
@@ -39,7 +40,8 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       poolReset: GMDashboard.#onPoolReset,
       lightPreset: GMDashboard.#onLightPreset,
       visionPreset: GMDashboard.#onVisionPreset,
-      sendWhisper: GMDashboard.#onSendWhisper
+      sendWhisper: GMDashboard.#onSendWhisper,
+      stockMerchant: GMDashboard.#onStockMerchant
     }
   };
 
@@ -49,7 +51,8 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     group: { template: template("group"), scrollable: [""] },
     combat: { template: template("combat"), scrollable: [""] },
     tokens: { template: template("tokens"), scrollable: [""] },
-    whispers: { template: template("whispers"), scrollable: [""] }
+    whispers: { template: template("whispers"), scrollable: [""] },
+    merchants: { template: template("merchants"), scrollable: [""] }
   };
 
   static TABS = {
@@ -59,7 +62,8 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
         { id: "group", icon: "fa-solid fa-dice-d20", label: `${I18N}.Tabs.Group` },
         { id: "combat", icon: "fa-solid fa-burst", label: `${I18N}.Tabs.Combat` },
         { id: "tokens", icon: "fa-solid fa-lightbulb", label: `${I18N}.Tabs.Tokens` },
-        { id: "whispers", icon: "fa-solid fa-ghost", label: `${I18N}.Tabs.Whispers` }
+        { id: "whispers", icon: "fa-solid fa-ghost", label: `${I18N}.Tabs.Whispers` },
+        { id: "merchants", icon: "fa-solid fa-store", label: `${I18N}.Tabs.Merchants` }
       ],
       initial: "session"
     }
@@ -91,9 +95,11 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   lastDamage = null;
   busy = false;
 
-  /** Szepty istnieją tylko w systemach ze Spaczeniem, a ich ustawienie jest wtedy zarejestrowane. */
+  /** Szepty istnieją tylko w systemach ze Spaczeniem, a Kupcy tylko z aktywnym Item Piles. */
   #tabEnabled(id) {
-    return (id !== "whispers" || Boolean(this.adapter.whispers)) && getSetting(TAB_SETTINGS[id]);
+    if (id === "whispers" && !this.adapter.whispers) return false;
+    if (id === "merchants" && !tradeActive()) return false;
+    return getSetting(TAB_SETTINGS[id]);
   }
 
   _getTabsConfig(group) {
@@ -173,6 +179,7 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       .filter((group) => group.options.length);
 
     return Object.assign(context, {
+      merchantRows: merchants().map((actor) => ({ id: actor.id, name: actor.name, img: actor.img })),
       tabs: this._prepareTabs("main"),
       state,
       rows,
@@ -372,5 +379,10 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
         skipDialog: !state.showDialog
       });
     });
+  }
+
+  static #onStockMerchant(_event, target) {
+    const actor = game.actors.get(target.closest("[data-actor]")?.dataset.actor);
+    if (actor) openStock(actor);
   }
 }

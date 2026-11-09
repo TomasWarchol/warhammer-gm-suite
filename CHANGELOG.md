@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0
+- **Merchants**: currencies and prices for Item Piles and the merchant stock generator are now part of the GM Suite, with a new tab. Item Piles is optional.
+- **Chat command hints** for Chat Commander are now part of the GM Suite. Chat Commander is optional.
+- The quick tests on the Token HUD moved to **Warhammer Battle HUD**.
+
 ## 0.3.1
 - WFRP: vehicles can take damage on the Combat tab (select their tokens).
 

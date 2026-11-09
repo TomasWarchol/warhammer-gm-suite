@@ -8,7 +8,8 @@
       "Group": "Group Test",
       "Combat": "Combat",
       "Tokens": "Light & Vision",
-      "Whispers": "Dark Whispers"
+      "Whispers": "Dark Whispers",
+      "Merchants": "Merchants"
     },
     "Party": {
       "Label": "Characters",
@@ -198,8 +199,6 @@
       "EnableCombatHint": "Damage for several characters, and the system's combat pools such as Advantage.",
       "EnableTokensName": "Light & Vision tab",
       "EnableTokensHint": "Light and vision presets for the selected tokens.",
-      "EnableTokenHudName": "Tests on the Token HUD",
-      "EnableTokenHudHint": "Quick tests with their values on the token's HUD, for anyone who owns the character.",
       "EnableWhispersName": "Dark Whispers tab",
       "EnableWhispersHint": "Temptations whispered to players, who answer on the chat card.",
       "WhisperRemoveCorruptionName": "Obeying removes 1 Corruption",
@@ -211,13 +210,172 @@
       "AdvancedFallbackName": "Untrained advanced skills use the characteristic",
       "AdvancedFallbackHint": "When off, characters without the advanced skill are left out of the group test.",
       "FallbackStepsName": "Difficulty steps for the fallback",
-      "FallbackStepsHint": "How many steps harder the characteristic test is for an untrained advanced skill."
+      "FallbackStepsHint": "How many steps harder the characteristic test is for an untrained advanced skill.",
+      "EnableMerchantsName": "Merchants and Item Piles",
+      "EnableMerchantsHint": "Sets up currencies and prices for Item Piles and adds the merchant stock generator. Needs the Item Piles module.",
+      "EnableChatHintsName": "Chat command hints",
+      "EnableChatHintsHint": "Syntax help and suggestions for the system's chat commands. Needs the Chat Commander module."
     },
     "RollMode": {
       "publicroll": "Public",
       "gmroll": "GM and roller only",
       "blindroll": "Blind (GM only)",
       "selfroll": "Self only"
+    },
+    "Merchants": {
+      "Title": "Merchants",
+      "Hint": "Fill an Item Piles merchant with goods by settlement, world type or rarity.",
+      "Stock": "Stock",
+      "None": "No Item Piles merchants in this world yet."
+    }
+  },
+  "WHTRADE": {
+    "Title": "Item Piles: Warhammer Trade & Merchants",
+    "Currency": {
+      "wfrp4e": {
+        "gc": "{#} GC",
+        "ss": "{#} SS",
+        "bp": "{#} BP"
+      },
+      "whtow": {
+        "gold": "{#} G",
+        "silver": "{#} S",
+        "brass": "{#} B",
+        "goldName": "Gold",
+        "silverName": "Silver",
+        "brassName": "Brass"
+      },
+      "impmal": {
+        "solars": "{#} ♁",
+        "solarsName": "Solars"
+      },
+      "wrath-and-glory": {
+        "wealth": "{#} W",
+        "wealthName": "Wealth"
+      }
+    },
+    "Stock": {
+      "Menu": "Warhammer: stock merchant",
+      "Title": "Stock {merchant}",
+      "IntroTable": "Each item from the compendia is tested for availability with the system's own table; the stock comes from the same table (∞ = unlimited).",
+      "IntroRandom": "This system has no availability table: random items of the chosen kinds are added, one of each.",
+      "Location": {
+        "wfrp4e": "Settlement size",
+        "impmal": "World type"
+      },
+      "Rarities": {
+        "whtow": "Cost (status)",
+        "wrath-and-glory": "Rarity",
+        "age-of-sigmar-soulbound": "Availability"
+      },
+      "Types": "Goods",
+      "Limit": "At most this many different items",
+      "Modifier": "Availability test modifier",
+      "Replace": "Replace current goods of these kinds",
+      "Confirm": "Stock the merchant",
+      "NoTypes": "Pick at least one kind of goods.",
+      "Working": "Picking the goods…",
+      "Done": "{merchant}: {count} items added."
+    }
+  },
+  "WFRP4E_CHATCMD": {
+    "Title": "Chat Commands",
+    "Commands": {
+      "help": "List all system chat commands",
+      "table": "Roll on a table",
+      "pay": "Ask for a payment (players pay from their character)",
+      "credit": "Hand out money to take",
+      "char": "Start character creation",
+      "cond": "Show a condition's description",
+      "prop": "Show a quality or flaw",
+      "name": "Generate a name",
+      "avail": "Roll an Availability test",
+      "corruption": "Ask for a Corruption test",
+      "fear": "Ask for a Fear test",
+      "terror": "Ask for a Terror test",
+      "exp": "Award experience points",
+      "travel": "Show travel distances",
+      "trade": "Open the trade dialog"
+    },
+    "Args": {
+      "table": {
+        "table": "table key, e.g. critarm, oops, mutatephys",
+        "modifier": "number added to the roll, e.g. 20",
+        "column": "column of a multi-column table, e.g. khorne"
+      },
+      "pay": {
+        "amount": "amount like 12ss, 1gc 5ss 3bp",
+        "for": "what is being paid for",
+        "target": "character who pays"
+      },
+      "credit": {
+        "amount": "amount like 100gc",
+        "mode": "split – share between players, each – everyone gets the full amount",
+        "split": "number of shares",
+        "target": "character who receives",
+        "reason": "reason shown in the message"
+      },
+      "cond": {
+        "condition": "condition name, e.g. Bleeding"
+      },
+      "prop": {
+        "property": "quality or flaw name, e.g. Impact"
+      },
+      "name": {
+        "gender": "male or female",
+        "species": "human, dwarf, helf, welf or halfling"
+      },
+      "avail": {
+        "rarity": "how rare the item is",
+        "size": "settlement size",
+        "modifier": "number added to the test"
+      },
+      "corruption": {
+        "strength": "exposure: minor, moderate or major",
+        "skill": "skill used for the test",
+        "source": "source of the Corruption"
+      },
+      "fear": {
+        "rating": "Fear rating, e.g. 2",
+        "source": "what causes the Fear"
+      },
+      "terror": {
+        "rating": "Terror rating, e.g. 2",
+        "source": "what causes the Terror"
+      },
+      "exp": {
+        "amount": "number of experience points",
+        "reason": "reason shown in the message"
+      },
+      "travel": {
+        "from": "starting town (or help)",
+        "to": "destination town"
+      }
+    },
+    "Values": {
+      "Gender": {
+        "male": "Male",
+        "female": "Female"
+      },
+      "CreditMode": {
+        "split": "Split between players",
+        "each": "Full amount for each"
+      }
+    },
+    "Menu": {
+      "NoArguments": "No arguments – press Enter to run.",
+      "AllArguments": "All arguments given – press Enter to run.",
+      "Notes": "Notes",
+      "Examples": "Examples"
+    },
+    "Settings": {
+      "ShowNotesName": "Show command notes",
+      "ShowNotesHint": "Show the system's notes for a command in the suggestion menu before you type any arguments.",
+      "ShowExamplesName": "Show command examples",
+      "ShowExamplesHint": "Show the system's usage examples for a command in the suggestion menu before you type any arguments."
+    },
+    "Notify": {
+      "CommandFailed": "The command {command} failed. See the console (F12) for details."
     }
   }
 }

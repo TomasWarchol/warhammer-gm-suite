@@ -8,7 +8,8 @@
       "Group": "Test grupowy",
       "Combat": "Walka",
       "Tokens": "Światło i wizja",
-      "Whispers": "Mroczne Szepty"
+      "Whispers": "Mroczne Szepty",
+      "Merchants": "Kupcy"
     },
     "Party": {
       "Label": "Postacie",
@@ -198,8 +199,6 @@
       "EnableCombatHint": "Obrażenia dla kilku postaci oraz pule walki systemu, np. Przewaga.",
       "EnableTokensName": "Zakładka Światło i wizja",
       "EnableTokensHint": "Presety światła i wizji dla zaznaczonych tokenów.",
-      "EnableTokenHudName": "Testy w Token HUD",
-      "EnableTokenHudHint": "Szybkie testy z wartościami w HUD tokena, dla każdego właściciela postaci.",
       "EnableWhispersName": "Zakładka Mroczne Szepty",
       "EnableWhispersHint": "Pokusy szeptane graczom, którzy odpowiadają na karcie czatu.",
       "WhisperRemoveCorruptionName": "Uleganie usuwa 1 punkt Spaczenia",
@@ -211,13 +210,172 @@
       "AdvancedFallbackName": "Brak umiejętności zaawansowanej: test cechy",
       "AdvancedFallbackHint": "Gdy wyłączone, postacie bez umiejętności zaawansowanej są pomijane w teście grupowym.",
       "FallbackStepsName": "Stopnie trudności przy teście cechy",
-      "FallbackStepsHint": "O ile stopni trudniejszy jest test cechy zastępujący nieznaną umiejętność zaawansowaną."
+      "FallbackStepsHint": "O ile stopni trudniejszy jest test cechy zastępujący nieznaną umiejętność zaawansowaną.",
+      "EnableMerchantsName": "Kupcy i Item Piles",
+      "EnableMerchantsHint": "Ustawia waluty i ceny dla Item Piles oraz dodaje generator towaru kupców. Wymaga modułu Item Piles.",
+      "EnableChatHintsName": "Podpowiedzi komend czatu",
+      "EnableChatHintsHint": "Pomoc składni i podpowiedzi do komend czatu systemu. Wymaga modułu Chat Commander."
     },
     "RollMode": {
       "publicroll": "Publiczny",
       "gmroll": "Tylko MG i rzucający",
       "blindroll": "Ukryty (tylko MG)",
       "selfroll": "Tylko dla siebie"
+    },
+    "Merchants": {
+      "Title": "Kupcy",
+      "Hint": "Uzupełnij towar kupca Item Piles według osady, typu świata albo rzadkości.",
+      "Stock": "Uzupełnij",
+      "None": "W tym świecie nie ma jeszcze kupców Item Piles."
+    }
+  },
+  "WHTRADE": {
+    "Title": "Item Piles: handel i kupcy dla Warhammera",
+    "Currency": {
+      "wfrp4e": {
+        "gc": "{#} zk",
+        "ss": "{#} s",
+        "bp": "{#} p"
+      },
+      "whtow": {
+        "gold": "{#} zł",
+        "silver": "{#} sr",
+        "brass": "{#} m",
+        "goldName": "Złoto",
+        "silverName": "Srebro",
+        "brassName": "Mosiądz"
+      },
+      "impmal": {
+        "solars": "{#} ♁",
+        "solarsName": "Solary"
+      },
+      "wrath-and-glory": {
+        "wealth": "{#} B",
+        "wealthName": "Bogactwo"
+      }
+    },
+    "Stock": {
+      "Menu": "Warhammer: zaopatrz kupca",
+      "Title": "Zaopatrzenie: {merchant}",
+      "IntroTable": "Każdy przedmiot z kompendiów przechodzi test dostępności według tabeli systemu; zapas pochodzi z tej samej tabeli (∞ = bez limitu).",
+      "IntroRandom": "Ten system nie ma tabeli dostępności: dodawane są losowe przedmioty wybranych rodzajów, po jednym.",
+      "Location": {
+        "wfrp4e": "Wielkość osady",
+        "impmal": "Typ świata"
+      },
+      "Rarities": {
+        "whtow": "Koszt (status)",
+        "wrath-and-glory": "Rzadkość",
+        "age-of-sigmar-soulbound": "Dostępność"
+      },
+      "Types": "Towary",
+      "Limit": "Najwyżej tyle różnych przedmiotów",
+      "Modifier": "Modyfikator testu dostępności",
+      "Replace": "Zastąp obecne towary tego rodzaju",
+      "Confirm": "Zaopatrz kupca",
+      "NoTypes": "Wybierz co najmniej jeden rodzaj towaru.",
+      "Working": "Dobieranie towaru…",
+      "Done": "{merchant}: dodano {count} pozycji."
+    }
+  },
+  "WFRP4E_CHATCMD": {
+    "Title": "Komendy czatu",
+    "Commands": {
+      "help": "Lista wszystkich komend czatu systemu",
+      "table": "Rzut na tabelę",
+      "pay": "Prośba o zapłatę (gracze płacą ze swojej postaci)",
+      "credit": "Pieniądze do odebrania",
+      "char": "Tworzenie postaci",
+      "cond": "Opis stanu",
+      "prop": "Opis zalety lub wady przedmiotu",
+      "name": "Generator imion",
+      "avail": "Test Dostępności",
+      "corruption": "Prośba o test Zepsucia",
+      "fear": "Prośba o test Strachu",
+      "terror": "Prośba o test Grozy",
+      "exp": "Przyznanie Punktów Doświadczenia",
+      "travel": "Odległości podróży",
+      "trade": "Okno handlu"
+    },
+    "Args": {
+      "table": {
+        "table": "klucz tabeli, np. critarm, oops, mutatephys",
+        "modifier": "liczba dodawana do rzutu, np. 20",
+        "column": "kolumna tabeli wielokolumnowej, np. khorne"
+      },
+      "pay": {
+        "amount": "kwota, np. 12ss, 1gc 5ss 3bp",
+        "for": "za co jest zapłata",
+        "target": "postać, która płaci"
+      },
+      "credit": {
+        "amount": "kwota, np. 100gc",
+        "mode": "split – podział między graczy, each – każdy dostaje całą kwotę",
+        "split": "liczba części",
+        "target": "postać, która otrzymuje",
+        "reason": "powód widoczny w wiadomości"
+      },
+      "cond": {
+        "condition": "nazwa stanu, np. Krwawienie"
+      },
+      "prop": {
+        "property": "nazwa zalety lub wady przedmiotu"
+      },
+      "name": {
+        "gender": "male (mężczyzna) lub female (kobieta)",
+        "species": "human, dwarf, helf, welf lub halfling"
+      },
+      "avail": {
+        "rarity": "jak rzadki jest przedmiot",
+        "size": "wielkość osady",
+        "modifier": "liczba dodawana do testu"
+      },
+      "corruption": {
+        "strength": "ekspozycja: mała, umiarkowana lub poważna",
+        "skill": "umiejętność użyta w teście",
+        "source": "źródło Zepsucia"
+      },
+      "fear": {
+        "rating": "poziom Strachu, np. 2",
+        "source": "co wywołuje Strach"
+      },
+      "terror": {
+        "rating": "poziom Grozy, np. 2",
+        "source": "co wywołuje Grozę"
+      },
+      "exp": {
+        "amount": "liczba Punktów Doświadczenia",
+        "reason": "powód widoczny w wiadomości"
+      },
+      "travel": {
+        "from": "miasto startowe (albo help)",
+        "to": "miasto docelowe"
+      }
+    },
+    "Values": {
+      "Gender": {
+        "male": "Mężczyzna",
+        "female": "Kobieta"
+      },
+      "CreditMode": {
+        "split": "Podział między graczy",
+        "each": "Cała kwota dla każdego"
+      }
+    },
+    "Menu": {
+      "NoArguments": "Brak argumentów – naciśnij Enter, aby wykonać.",
+      "AllArguments": "Podano wszystkie argumenty – naciśnij Enter, aby wykonać.",
+      "Notes": "Uwagi",
+      "Examples": "Przykłady"
+    },
+    "Settings": {
+      "ShowNotesName": "Pokazuj uwagi do komend",
+      "ShowNotesHint": "Pokazuje uwagi systemu do komendy w menu podpowiedzi, zanim wpiszesz argumenty.",
+      "ShowExamplesName": "Pokazuj przykłady komend",
+      "ShowExamplesHint": "Pokazuje przykłady użycia komendy z systemu w menu podpowiedzi, zanim wpiszesz argumenty."
+    },
+    "Notify": {
+      "CommandFailed": "Komenda {command} nie powiodła się. Szczegóły w konsoli (F12)."
     }
   }
 }

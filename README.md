@@ -50,13 +50,17 @@ Each tab can be switched off in the module settings. The list at the top chooses
 
 Only in systems with Corruption (WFRP, Imperium Maledictum, Wrath & Glory). The GM writes a temptation, and each ticked character with Corruption gets it as a private card with **Obey** and **Resist** buttons. The GM is told the answer, and obeying removes 1 Corruption (this can be switched off).
 
-## 🎯 Token HUD
+## 🛒 Merchants
 
-Anyone who owns the character gets its quick tests with their values next to the token's HUD. A click opens the system's roll dialog.
+With [Item Piles](https://foundryvtt.com/packages/item-piles) active, the module sets up each system's currency and prices, and keeps loot and trade to physical items. The **Merchants** tab, or right-clicking a merchant in the Actors directory, fills a merchant with goods by settlement size or world type, or by rarity in systems without an availability table. Don't enable the older *Item Piles: Warhammer Trade* with it.
+
+## 💬 Chat commands
+
+With [Chat Commander](https://foundryvtt.com/packages/_chatcommands) active, the system's chat commands get syntax help and suggestions taken from your world. Commands are read from the system, so new ones get help automatically. Don't enable the older *WFRP4e – Chat Commands* with it.
 
 ## ⚙️ Settings (world)
 
-* Each tab on/off, and the tests on the Token HUD
+* Each tab on/off, merchants and chat command hints
 * Whether obeying a Dark Whisper removes Corruption
 * Default character selection
 * Default visibility of group test cards
