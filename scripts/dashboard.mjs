@@ -136,12 +136,14 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     };
   }
 
-  #party() {
-    return pickParty({ mode: this.state.mode, actors: game.actors.contents, users: game.users.contents, controlled: canvas.tokens?.controlled.map((token) => token.actor) ?? [], adapter: this.adapter });
+  /** @param {string[]} [extraTypes] dodatkowe typy aktorów dla jednej zakładki, np. pojazdy w obrażeniach */
+  #party(extraTypes = []) {
+    const adapter = extraTypes.length ? { ...this.adapter, companyTypes: [...this.adapter.companyTypes, ...extraTypes] } : this.adapter;
+    return pickParty({ mode: this.state.mode, actors: game.actors.contents, users: game.users.contents, controlled: canvas.tokens?.controlled.map((token) => token.actor) ?? [], adapter });
   }
 
-  #selected() {
-    return this.#party().filter((actor) => !this.state.excluded.has(actor.id));
+  #selected(extraTypes) {
+    return this.#party(extraTypes).filter((actor) => !this.state.excluded.has(actor.id));
   }
 
   async _prepareContext(options) {
@@ -153,7 +155,7 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     if (!state.test) state.test = this.#defaultTest();
 
     const refreshKey = adapter.refresh.key;
-    const rows = party.map((actor) => ({
+    const row = (actor) => ({
       id: actor.id,
       name: actor.name,
       img: actor.img,
@@ -162,7 +164,9 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       resource: adapter.refresh.perActor ? adapter.refresh.read(actor, game) : null,
       health: adapter.damage.read(actor),
       corruption: adapter.whispers?.read(actor)
-    }));
+    });
+    const rows = party.map(row);
+    const combatRows = this.#party(adapter.damage.extraTypes).map(row);
     const difficulty = adapter.tests.difficulty(game);
     const groups = ["skill", "characteristic", "attribute"]
       .map((group) => ({ label: t(`Group.Kinds.${group}`), options: this.catalog.filter((e) => e.group === group) }))
@@ -172,6 +176,7 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       tabs: this._prepareTabs("main"),
       state,
       rows,
+      combatRows,
       modes: ["party", "company", "selected"].map((id) => ({ id, label: t(`Party.${id}`) })),
       sessionId: getSetting("sessionId"),
       holdingScene: getSetting("holdingScene"),
@@ -301,7 +306,7 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static async #onApplyDamage() {
     const { state, adapter } = this;
-    const actors = this.#selected();
+    const actors = this.#selected(adapter.damage.extraTypes);
     if (!actors.length) return ui.notifications.warn(t("Group.NoActors"));
     const formula = String(state.dmgFormula ?? "").trim();
     const options = damageOptions(adapter.damage.fields, state);

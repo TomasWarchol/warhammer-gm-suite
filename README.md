@@ -38,7 +38,7 @@ Each tab can be switched off in the module settings. The list at the top chooses
 ## ⚔️ Combat tab
 
 * Apply damage to the ticked characters: a number or a dice formula, rolled once for everyone or separately for each. The system calculates the result by its own rules, and the GM gets one summary.
-* The options follow the system: hit location, ignoring armour or Toughness Bonus (WFRP), ignoring armour (The Old World, Imperium Maledictum), AP, Shock and Mortal Wounds (Wrath & Glory), Penetrating and Ineffective (Soulbound).
+* The options follow the system: hit location, ignoring armour or Toughness Bonus (WFRP, where vehicles can also take damage: select their tokens), ignoring armour (The Old World, Imperium Maledictum), AP, Shock and Mortal Wounds (Wrath & Glory), Penetrating and Ineffective (Soulbound).
 * Combat pools, where the system has them: Advantage in WFRP (each combatant, or both sides under the Group Advantage rule), Superiority in Imperium Maledictum, Glory and Ruin in Wrath & Glory.
 
 ## 💡 Light & Vision tab

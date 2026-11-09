@@ -74,6 +74,7 @@ export default {
 
   damage: {
     stat: "wounds",
+    extraTypes: ["vehicle"],
     fields: [
       { id: "location", type: "select", initial: "body", choices: (ctx) => Object.entries(ctx.wfrp4e.config.locations).map(([id, label]) => ({ id, label: ctx.i18n.localize(label) })) },
       { id: "ignoreAP", type: "checkbox", initial: false },

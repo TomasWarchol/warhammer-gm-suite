@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1
+- WFRP: vehicles can take damage on the Combat tab (select their tokens).
+
 ## 0.3.0
 - **Light & Vision** tab: light and vision presets for the selected tokens, with a custom range.
 - **Dark Whispers** tab (systems with Corruption): a temptation whispered to the player, who answers on the chat card. Obeying can remove 1 Corruption automatically.

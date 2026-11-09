@@ -38,7 +38,7 @@ Każdą zakładkę można wyłączyć w ustawieniach modułu. Lista na górze wy
 ## ⚔️ Zakładka Walka
 
 * Zadawanie obrażeń zaznaczonym postaciom: liczba albo wzór z kośćmi, jeden rzut dla wszystkich albo osobny dla każdej postaci. Wynik liczy system według własnych zasad, a MG dostaje jedno podsumowanie.
-* Opcje zależą od systemu: lokacja trafienia, pominięcie pancerza lub Bonusu z Wytrzymałości (WFRP), pominięcie pancerza (The Old World, Imperium Maledictum), przebicie pancerza, Szok i Rany śmiertelne (Wrath & Glory), Przebijanie i Nieskuteczne (Soulbound).
+* Opcje zależą od systemu: lokacja trafienia, pominięcie pancerza lub Bonusu z Wytrzymałości (WFRP, gdzie obrażenia mogą dostać też pojazdy: zaznacz ich tokeny), pominięcie pancerza (The Old World, Imperium Maledictum), przebicie pancerza, Szok i Rany śmiertelne (Wrath & Glory), Przebijanie i Nieskuteczne (Soulbound).
 * Pule walki, jeśli system je ma: Przewaga w WFRP (każdy walczący albo obie strony przy zasadzie Przewagi Grupowej), Superiority w Imperium Maledictum, Chwała i Zguba w Wrath & Glory.
 
 ## 💡 Zakładka Światło i wizja
