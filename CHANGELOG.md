@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- **Merchants** work together with the standalone **Item Piles: Warhammer** add-on: when it is active, it sets up Item Piles and the Merchants tab (and `api.trade`) uses its stock generator.
+
 ## 0.4.0
 - **Merchants**: currencies and prices for Item Piles and the merchant stock generator are now part of the GM Suite, with a new tab. Item Piles is optional.
 - **Chat command hints** for Chat Commander are now part of the GM Suite. Chat Commander is optional.

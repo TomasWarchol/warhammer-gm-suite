@@ -8,20 +8,37 @@ import { buildIntegration } from "./integration.mjs";
 import { openStockDialog, stockMerchant } from "./merchant.mjs";
 import { adapterFor } from "./systems/index.mjs";
 
-/** Starszy, osobny moduł; razem zarejestrowałyby integrację dwa razy. */
-const STANDALONE = "item-piles-warhammer-trade";
+/**
+ * Osobne moduły z tą samą integracją Item Piles (obecny i jego dawna nazwa). Gdy któryś jest aktywny,
+ * to on konfiguruje Item Piles i dodaje menu kontekstowe, a zakładka Kupcy korzysta z jego API.
+ */
+const STANDALONE = ["item-piles-warhammer", "item-piles-warhammer-trade"];
 
 let adapter = null;
+let standalone = null;
 
-export const tradeActive = () => Boolean(adapter && game.itempiles);
+/** API aktywnego osobnego modułu (ustawiane w jego hooku init, więc czytane dopiero przy użyciu). */
+const standaloneApi = () => (standalone ? game.modules.get(standalone)?.api : null);
+
+export const tradeActive = () => Boolean(game.itempiles && (adapter || standaloneApi()?.adapter));
 
 /** Kupcy Item Piles wśród aktorów świata. */
 export const merchants = () => (tradeActive() ? game.actors.filter((actor) => game.itempiles.API.isItemPileMerchant(actor)) : []);
 
-export const openStock = (actor) => adapter && openStockDialog(adapter, actor);
+export const openStock = (actor) => (adapter ? openStockDialog(adapter, actor) : standaloneApi()?.openStockDialog(actor));
 
 export function registerTrade() {
-  if (game.modules.get(STANDALONE)?.active) return log.info(`aktywny moduł ${STANDALONE}, handel z panelu MG wyłączony`);
+  standalone = STANDALONE.find((id) => game.modules.get(id)?.active) ?? null;
+  if (standalone) {
+    // Zgodność makr: api.trade przekazuje wywołania do osobnego modułu
+    game.modules.get(MODULE_ID).api.trade = {
+      currencies: () => standaloneApi()?.currencies(),
+      applyCurrencies: () => standaloneApi()?.applyCurrencies(),
+      stockMerchant: (merchant, options) => standaloneApi()?.stockMerchant(merchant, options),
+      openStockDialog: openStock
+    };
+    return log.info(`aktywny moduł ${standalone}: on konfiguruje Item Piles, zakładka Kupcy używa jego generatora`);
+  }
   adapter = adapterFor(game.system.id);
   if (!adapter) return;
 

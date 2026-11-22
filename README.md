@@ -52,7 +52,7 @@ Only in systems with Corruption (WFRP, Imperium Maledictum, Wrath & Glory). The 
 
 ## 🛒 Merchants
 
-With [Item Piles](https://foundryvtt.com/packages/item-piles) active, the module sets up each system's currency and prices, and keeps loot and trade to physical items. The **Merchants** tab, or right-clicking a merchant in the Actors directory, fills a merchant with goods by settlement size or world type, or by rarity in systems without an availability table. Don't enable the older *Item Piles: Warhammer Trade* with it.
+With [Item Piles](https://foundryvtt.com/packages/item-piles) active, the module sets up each system's currency and prices, and keeps loot and trade to physical items. The **Merchants** tab, or right-clicking a merchant in the Actors directory, fills a merchant with goods by settlement size or world type, or by rarity in systems without an availability table. With the standalone add-on **Item Piles: Warhammer** (`item-piles-warhammer`) active, the GM Suite leaves the Item Piles setup to it and the Merchants tab uses its stock generator, so both can be enabled together.
 
 ## 💬 Chat commands
 

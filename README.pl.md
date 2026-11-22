@@ -52,7 +52,7 @@ Tylko w systemach ze Spaczeniem (WFRP, Imperium Maledictum, Wrath & Glory). MG p
 
 ## 🛒 Kupcy
 
-Z aktywnym [Item Piles](https://foundryvtt.com/packages/item-piles) moduł ustawia waluty i ceny każdego systemu oraz ogranicza łupy i handel do przedmiotów fizycznych. Zakładka **Kupcy** albo prawy klik na kupcu w katalogu aktorów uzupełnia jego towar według wielkości osady lub typu świata, a w systemach bez tabeli dostępności według rzadkości. Nie włączaj razem ze starszym *Item Piles: Warhammer Trade*.
+Z aktywnym [Item Piles](https://foundryvtt.com/packages/item-piles) moduł ustawia waluty i ceny każdego systemu oraz ogranicza łupy i handel do przedmiotów fizycznych. Zakładka **Kupcy** albo prawy klik na kupcu w katalogu aktorów uzupełnia jego towar według wielkości osady lub typu świata, a w systemach bez tabeli dostępności według rzadkości. Gdy aktywna jest osobna nakładka **Item Piles: Warhammer** (`item-piles-warhammer`), GM Suite zostawia jej konfigurację Item Piles, a zakładka Kupcy używa jej generatora towaru, więc oba moduły mogą działać razem.
 
 ## 💬 Komendy czatu
 
