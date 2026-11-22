@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.1
 - **Merchants** work together with the standalone **Item Piles: Warhammer** add-on: when it is active, it sets up Item Piles and the Merchants tab (and `api.trade`) uses its stock generator.
 
 ## 0.4.0
