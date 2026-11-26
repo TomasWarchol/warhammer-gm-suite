@@ -163,8 +163,8 @@
 .whgm-merchant {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 2px 0;
+  gap: 0.4rem;
+  padding: 3px 0;
 }
 
 .whgm-merchant img {
@@ -173,13 +173,37 @@
   border: none;
 }
 
-.whgm-merchant span {
+.whgm-merchant-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.whgm-merchant-info .name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whgm-merchant-info .hint {
+  font-size: 0.8em;
+  opacity: 0.75;
 }
 
 .whgm-merchant button {
   flex: 0 0 auto;
   width: auto;
+}
+
+.whgm-shop-status.open {
+  border-color: #3a8a3a;
+  color: #7ee07e;
+}
+
+.whgm-shop-status.closed {
+  border-color: #b03030;
+  color: #f08080;
 }
 
 /* Item Piles: Warhammer Trade & Merchants */
@@ -188,6 +212,51 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px 12px;
+}
+
+.whgm-shop-bar {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.whgm-shop-bar button,
+.whgm-shop-bar select {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.whgm-shop-bar input[type="number"] {
+  width: 3.5rem;
+  text-align: center;
+}
+
+.whgm-shop-bar .whgm-shop-toggle.open {
+  border-color: #1f6f1f;
+  color: #1f6f1f;
+}
+
+.whgm-shop-bar .whgm-shop-toggle.closed {
+  border-color: #9e2020;
+  color: #9e2020;
+}
+
+.whgm-quick-reveal {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 0;
+  height: 20px;
+  padding: 0 5px;
+  margin-left: 4px;
+  font-size: 0.75em;
+  line-height: 18px;
 }
 
 /* WFRP4e – Chat Commands: wygląd podpowiedzi w menu Chat Commander */

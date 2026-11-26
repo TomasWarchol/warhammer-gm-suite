@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0
+- **Preset shops** (WFRP 4e/5e, needs Item Piles): eight themed merchants created from the compendiums you own, from the Merchants tab. Availability is rolled for the settlement with a limit of 5 (village), 10 (town) or 15 (city) items; the rest stays hidden from players. A new shop is closed and does not buy.
+- The Merchants tab can open and close a shop, open its window and reroll its availability. The merchant window gets a GM bar (open/closed, reroll, catalogue sync) and a +1 button on hidden items. Rerolling is also in the Actors directory context menu.
+- New world settings: armour rules for shops (Core or Archives of the Empire III) and whether campaign compendiums are included.
+- Merchant stock generator: the default limit is now 10, or follows the settlement size; items without a price are skipped, campaign compendiums are left out by default, Up in Arms and Archives take priority over Core, and unlimited stock is marked correctly for Item Piles.
+- Chat command hints: found in The Old World under `game.oldworld`, and tables flagged by the active system are listed.
+- The dashboard refreshes when actors, users or Item Piles change.
+
 ## 0.4.1
 - **Merchants** work together with the standalone **Item Piles: Warhammer** add-on: when it is active, it sets up Item Piles and the Merchants tab (and `api.trade`) uses its stock generator.
 

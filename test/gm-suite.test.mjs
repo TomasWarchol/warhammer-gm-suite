@@ -107,8 +107,18 @@ describe("adaptery", () => {
   it("każdy adapter ma pełny interfejs", () => {
     for (const a of Object.values(ADAPTERS)) {
       expect(a.partyTypes.length).toBeGreaterThan(0);
-      for (const fn of [a.xp.read, a.xp.award, a.refresh.targets, a.refresh.read, a.refresh.apply, a.tests.catalog, a.tests.quick, a.tests.difficulty, a.tests.run, a.tests.read]) expect(fn).toBeTypeOf("function");
+      for (const fn of [a.xp.read, a.xp.award, a.refresh.targets, a.refresh.read, a.refresh.apply, a.tests.catalog, a.tests.quick, a.tests.difficulty, a.tests.value, a.tests.run, a.tests.read]) expect(fn).toBeTypeOf("function");
     }
+  });
+
+  it("odczyt wartości umiejętności i cech na karcie postaci", () => {
+    const wfrpActor = { itemTypes: { skill: [{ name: "Percepcja", system: { total: { value: 48 } } }] }, system: { characteristics: { i: { value: 35 } } } };
+    expect(ADAPTERS.wfrp4e.tests.value(wfrpActor, { label: "Percepcja", characteristic: "i" })).toBe(48);
+    expect(ADAPTERS.wfrp4e.tests.value(wfrpActor, { label: "Leczenie", characteristic: "i", advanced: true })).toBe(35);
+    expect(ADAPTERS.whtow.tests.value({ system: { skills: { awareness: { value: 3 } } } }, { key: "awareness" })).toBe(3);
+    expect(ADAPTERS.impmal.tests.value({ system: { skills: { awareness: { total: 45 } } } }, { kind: "skill", key: "awareness" })).toBe(45);
+    expect(ADAPTERS["wrath-and-glory"].tests.value({ system: { attributes: { agility: { total: 4 } } } }, { kind: "attribute", key: "agility" })).toBe(4);
+    expect(ADAPTERS["age-of-sigmar-soulbound"].tests.value({ system: { skills: { awareness: { training: 2 } } } }, { kind: "skill", key: "awareness" })).toBe(2);
   });
 
   it("katalog i szybkie testy z konfiguracji systemu", async () => {

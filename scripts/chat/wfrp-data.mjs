@@ -19,7 +19,7 @@ function baseTableName(name) {
 }
 
 export function createWfrpData(gameRef = globalThis.game) {
-  const system = () => gameRef?.[gameRef?.system?.id] ?? gameRef?.wfrp4e;
+  const system = () => gameRef?.[gameRef?.system?.id] ?? gameRef?.oldworld ?? gameRef?.wfrp4e;
   const config = () => system()?.config ?? {};
   const localize = (key) => (typeof key === "string" ? gameRef.i18n.localize(key) : String(key ?? ""));
 
@@ -47,13 +47,14 @@ export function createWfrpData(gameRef = globalThis.game) {
     /** Tłumaczenie z przestrzeni tego modułu. */
     label: (key) => t(key),
 
-    /** Tabele z kluczem systemu (flaga wfrp4e.key) oraz tabele lokacji trafień. */
+    /** Tabele z kluczem systemu (flaga wfrp4e.key / <system>.key) oraz tabele lokacji trafień. */
     tables() {
       const byKey = new Map();
+      const getFlag = (table, flag) => table.getFlag?.(gameRef?.system?.id, flag) ?? table.getFlag?.("wfrp4e", flag);
       for (const table of gameRef.tables ?? []) {
-        const key = table.getFlag?.("wfrp4e", "key");
+        const key = getFlag(table, "key");
         if (!key) continue;
-        const column = table.getFlag("wfrp4e", "column");
+        const column = getFlag(table, "column");
         const entry = byKey.get(key) ?? { value: key, label: table.name, columns: [] };
         if (column && !entry.columns.includes(column)) {
           entry.columns.push(column);

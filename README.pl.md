@@ -54,6 +54,8 @@ Tylko w systemach ze Spaczeniem (WFRP, Imperium Maledictum, Wrath & Glory). MG p
 
 Z aktywnym [Item Piles](https://foundryvtt.com/packages/item-piles) moduł ustawia waluty i ceny każdego systemu oraz ogranicza łupy i handel do przedmiotów fizycznych. Zakładka **Kupcy** albo prawy klik na kupcu w katalogu aktorów uzupełnia jego towar według wielkości osady lub typu świata, a w systemach bez tabeli dostępności według rzadkości. Gdy aktywna jest osobna nakładka **Item Piles: Warhammer** (`item-piles-warhammer`), GM Suite zostawia jej konfigurację Item Piles, a zakładka Kupcy używa jej generatora towaru, więc oba moduły mogą działać razem.
 
+**Sklepy z szablonów** (WFRP 4e/5e): w zakładce Kupcy tworzysz Kowala, Płatnerza, Łuczarza i Rusznikarza, Aptekarza i Zielarza, Karczmę, Krawca i Kuśnierza, Kramarza albo Księgarza z posiadanych kompendiów. Dostępność jest losowana dla wielkości osady, z limitem 5 (wioska), 10 (miasteczko) albo 15 (miasto) pozycji; reszta pozostaje ukryta przed graczami. Nowy sklep jest zamknięty i nie skupuje. W oknie kupca MG może go otworzyć lub zamknąć, przelosować towar, dociągnąć nowe przedmioty z kompendiów i wystawić ukryty przedmiot (+1).
+
 ## 💬 Komendy czatu
 
 Z aktywnym [Chat Commander](https://foundryvtt.com/packages/_chatcommands) komendy czatu systemu dostają pomoc składni i podpowiedzi z Twojego świata. Komendy są czytane z systemu, więc nowe od razu mają pomoc. Nie włączaj razem ze starszym *WFRP4e – Chat Commands*.
@@ -61,6 +63,7 @@ Z aktywnym [Chat Commander](https://foundryvtt.com/packages/_chatcommands) komen
 ## ⚙️ Ustawienia (świat)
 
 * Każda zakładka osobno, kupcy i podpowiedzi komend czatu
+* Sklepy WFRP: zasady pancerzy (podstawowe albo Archiwa Imperium III) i czy uwzględniać kompendia kampanii
 * Czy posłuchanie Mrocznego Szeptu usuwa Spaczenie
 * Domyślny wybór postaci
 * Domyślna widoczność kart testów grupowych

@@ -13,7 +13,19 @@ import { applyGroupDamage } from "./damage.mjs";
 import { damageOptions, hasAdditive, stepPool } from "./damage-data.mjs";
 import { LIGHT_SETS, lightData, lightRange, sightData, visionPresets, visionRange } from "./token-presets.mjs";
 import { sendWhispers } from "./whispers.mjs";
-import { merchants, openStock, tradeActive } from "./trade/index.mjs";
+import {
+  merchantInfo,
+  merchants,
+  openCreateShop,
+  openReroll,
+  openShop,
+  openStock,
+  shopLocations,
+  shopPresets,
+  toggleShop,
+  tradeActive
+} from "./trade/index.mjs";
+import { settlementLimit } from "./trade/presets.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
 const template = (name) => `modules/${MODULE_ID}/templates/${name}.hbs`;
@@ -41,7 +53,11 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       lightPreset: GMDashboard.#onLightPreset,
       visionPreset: GMDashboard.#onVisionPreset,
       sendWhisper: GMDashboard.#onSendWhisper,
-      stockMerchant: GMDashboard.#onStockMerchant
+      stockMerchant: GMDashboard.#onStockMerchant,
+      createShop: GMDashboard.#onCreateShop,
+      toggleShop: GMDashboard.#onToggleShop,
+      openShop: GMDashboard.#onOpenShop,
+      rerollShop: GMDashboard.#onRerollShop
     }
   };
 
@@ -117,6 +133,8 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
 
   #initialState() {
     const difficulty = this.adapter.tests.difficulty(game);
+    const locations = shopLocations();
+    const defaultLoc = locations[0]?.key ?? "";
     return {
       mode: getSetting("defaultMode"),
       excluded: new Set(),
@@ -138,6 +156,10 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       dmgPerActor: false,
       tokenRange: 0,
       whisperAsk: "",
+      shopPreset: shopPresets()[0]?.id ?? "",
+      shopName: "",
+      shopLocation: defaultLoc,
+      shopLimit: settlementLimit(defaultLoc),
       ...Object.fromEntries(this.adapter.damage.fields.map((f) => [`dmg_${f.id}`, f.initial]))
     };
   }
@@ -157,7 +179,7 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     this.state ??= this.#initialState();
     const { adapter, state } = this;
     const party = this.#party();
-    this.catalog ??= await adapter.tests.catalog(game, party);
+    this.catalog = await adapter.tests.catalog(game, party);
     if (!state.test) state.test = this.#defaultTest();
 
     const refreshKey = adapter.refresh.key;
@@ -178,8 +200,30 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
       .map((group) => ({ label: t(`Group.Kinds.${group}`), options: this.catalog.filter((e) => e.group === group) }))
       .filter((group) => group.options.length);
 
+    const presets = shopPresets();
+    const locations = shopLocations();
+    const locMap = new Map(locations.map((l) => [l.key, l.label]));
+    const canReroll = presets.length > 0 && locations.length > 0;
+
     return Object.assign(context, {
-      merchantRows: merchants().map((actor) => ({ id: actor.id, name: actor.name, img: actor.img })),
+      hasShops: canReroll,
+      shopPresets: presets.map((p) => ({ id: p.id, icon: p.icon, label: game.i18n.localize(`WHTRADE.Shop.Presets.${p.id}`) })),
+      shopLocations: locations,
+      merchantRows: merchants().map((actor) => {
+        const { open, meta } = merchantInfo(actor);
+        const parts = [];
+        if (meta?.preset) parts.push(game.i18n.localize(`WHTRADE.Shop.Presets.${meta.preset}`));
+        if (meta?.location) parts.push(locMap.get(meta.location) ?? meta.location);
+        return {
+          id: actor.id,
+          name: actor.name,
+          img: actor.img,
+          open,
+          statusLabel: game.i18n.localize(open ? "WHTRADE.Shop.Status.Open" : "WHTRADE.Shop.Status.Closed"),
+          subtitle: parts.join(" · "),
+          canReroll
+        };
+      }),
       tabs: this._prepareTabs("main"),
       state,
       rows,
@@ -234,7 +278,15 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
 
   _onFirstRender(context, options) {
     super._onFirstRender(context, options);
+    this.element.addEventListener("input", (event) => this.#onInput(event));
     this.element.addEventListener("change", (event) => this.#onChange(event));
+  }
+
+  #onInput(event) {
+    const input = event.target;
+    const key = input.dataset?.state;
+    if (!key || input.type === "checkbox" || input.tagName === "SELECT") return;
+    this.state[key] = input.type === "number" ? Number(input.value) || 0 : input.value;
   }
 
   async #onChange(event) {
@@ -251,7 +303,8 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
     const key = input.dataset.state;
     if (!key) return;
     this.state[key] = input.type === "checkbox" ? input.checked : input.type === "number" ? Number(input.value) || 0 : input.value;
-    if (key === "mode" || key === "reason") this.render();
+    if (key === "shopLocation") this.state.shopLimit = settlementLimit(this.state.shopLocation);
+    if (key === "mode" || key === "reason" || key === "shopLocation") this.render();
   }
 
   /** Wykonuje działanie bez nakładania się kliknięć. */
@@ -384,5 +437,43 @@ export class GMDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   static #onStockMerchant(_event, target) {
     const actor = game.actors.get(target.closest("[data-actor]")?.dataset.actor);
     if (actor) openStock(actor);
+  }
+
+  static async #onCreateShop() {
+    if (!this.state.shopPreset) return;
+    await this.#exclusive(async () => {
+      ui.notifications.info(game.i18n.localize("WHTRADE.Shop.Creating"));
+      const created = await openCreateShop({
+        presetId: this.state.shopPreset,
+        name: this.state.shopName,
+        location: this.state.shopLocation,
+        limit: Number(this.state.shopLimit) || settlementLimit(this.state.shopLocation)
+      });
+      if (created) {
+        this.state.shopName = "";
+        ui.notifications.info(game.i18n.format("WHTRADE.Shop.Created", {
+          name: created.actor.name,
+          available: created.availableCount,
+          total: created.totalCount
+        }));
+      }
+    });
+  }
+
+  static async #onToggleShop(_event, target) {
+    const actor = game.actors.get(target.closest("[data-actor]")?.dataset.actor);
+    if (!actor) return;
+    await this.#exclusive(() => toggleShop(actor));
+  }
+
+  static #onOpenShop(_event, target) {
+    const actor = game.actors.get(target.closest("[data-actor]")?.dataset.actor);
+    if (actor) openShop(actor);
+  }
+
+  static async #onRerollShop(_event, target) {
+    const actor = game.actors.get(target.closest("[data-actor]")?.dataset.actor);
+    if (!actor) return;
+    await this.#exclusive(() => openReroll(actor));
   }
 }

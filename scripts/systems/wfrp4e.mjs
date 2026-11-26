@@ -50,7 +50,17 @@ export default {
 
   settings: {
     advancedFallback: { type: Boolean, default: false },
-    fallbackSteps: { type: Number, default: 1 }
+    fallbackSteps: { type: Number, default: 1 },
+    shopArmourRules: {
+      type: String,
+      default: "auto",
+      choices: {
+        auto: "WHGM.Settings.ShopArmour.auto",
+        core: "WHGM.Settings.ShopArmour.core",
+        archives3: "WHGM.Settings.ShopArmour.archives3"
+      }
+    },
+    shopIncludeCampaignPacks: { type: Boolean, default: false }
   },
 
   xp: {

@@ -20,6 +20,7 @@ describe("commands", () => {
   it("znajduje rejestr aktywnego systemu", () => {
     expect(getCommandRegistry({ system: { id: "wfrp4e" }, wfrp4e: { commands: registry } })).toBe(registry);
     expect(getCommandRegistry({ system: { id: "whtow" }, whtow: { commands: registry } })).toBe(registry);
+    expect(getCommandRegistry({ system: { id: "whtow" }, oldworld: { commands: registry } })).toBe(registry);
     expect(getCommandRegistry({ system: { id: "dnd5e" } })).toBeNull();
     expect(getCommandRegistry(undefined)).toBeNull();
   });

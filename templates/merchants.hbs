@@ -1,11 +1,55 @@
 <section class="tab {{tab.cssClass}}" data-tab="merchants" data-group="main">
+  {{#if hasShops}}
+    <fieldset>
+      <legend>{{localize "WHGM.Merchants.CreateTitle"}}</legend>
+      <p class="hint">{{localize "WHGM.Merchants.CreateHint"}}</p>
+      <div class="form-group">
+        <label>{{localize "WHGM.Merchants.Preset"}}</label>
+        <select data-state="shopPreset">
+          {{#each shopPresets}}<option value="{{id}}" {{#if (eq id ../state.shopPreset)}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{localize "WHGM.Merchants.Name"}}</label>
+        <input type="text" data-state="shopName" value="{{state.shopName}}" placeholder="{{localize 'WHGM.Merchants.NamePlaceholder'}}">
+      </div>
+      <div class="form-group">
+        <label>{{localize "WHGM.Merchants.Settlement"}}</label>
+        <select data-state="shopLocation">
+          {{#each shopLocations}}<option value="{{key}}" {{#if (eq key ../state.shopLocation)}}selected{{/if}}>{{label}}</option>{{/each}}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>{{localize "WHGM.Merchants.Limit"}}</label>
+        <input type="number" min="1" max="500" data-state="shopLimit" value="{{state.shopLimit}}">
+      </div>
+      <div class="whgm-buttons">
+        <button type="button" data-action="createShop"><i class="fa-solid fa-store"></i> {{localize "WHGM.Merchants.Create"}}</button>
+      </div>
+    </fieldset>
+  {{/if}}
+
   <fieldset>
     <legend>{{localize "WHGM.Merchants.Title"}}</legend>
     <p class="hint">{{localize "WHGM.Merchants.Hint"}}</p>
     {{#each merchantRows}}
       <div class="whgm-merchant" data-actor="{{id}}">
         <img src="{{img}}" alt="">
-        <span>{{name}}</span>
+        <div class="whgm-merchant-info">
+          <span class="name">{{name}}</span>
+          {{#if subtitle}}<span class="hint">{{subtitle}}</span>{{/if}}
+        </div>
+        <button type="button" class="whgm-shop-status {{#if open}}open{{else}}closed{{/if}}" data-action="toggleShop" data-tooltip="{{localize 'WHGM.Merchants.ToggleShop'}}">
+          <i class="fa-solid {{#if open}}fa-lock-open{{else}}fa-lock{{/if}}"></i> {{statusLabel}}
+        </button>
+        <button type="button" data-action="openShop" data-tooltip="{{localize 'WHGM.Merchants.OpenShop'}}">
+          <i class="fa-solid fa-door-open"></i>
+        </button>
+        {{#if canReroll}}
+          <button type="button" data-action="rerollShop" data-tooltip="{{localize 'WHGM.Merchants.Reroll'}}">
+            <i class="fa-solid fa-dice"></i>
+          </button>
+        {{/if}}
         <button type="button" data-action="stockMerchant"><i class="fa-solid fa-cart-plus"></i> {{localize "WHGM.Merchants.Stock"}}</button>
       </div>
     {{else}}

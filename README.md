@@ -54,6 +54,8 @@ Only in systems with Corruption (WFRP, Imperium Maledictum, Wrath & Glory). The 
 
 With [Item Piles](https://foundryvtt.com/packages/item-piles) active, the module sets up each system's currency and prices, and keeps loot and trade to physical items. The **Merchants** tab, or right-clicking a merchant in the Actors directory, fills a merchant with goods by settlement size or world type, or by rarity in systems without an availability table. With the standalone add-on **Item Piles: Warhammer** (`item-piles-warhammer`) active, the GM Suite leaves the Item Piles setup to it and the Merchants tab uses its stock generator, so both can be enabled together.
 
+**Preset shops** (WFRP 4e/5e): the Merchants tab creates a blacksmith, armourer, fletcher and gunsmith, apothecary, tavern, tailor, general trader or bookseller from the compendiums you own. Availability is rolled for the settlement, with a limit of 5 (village), 10 (town) or 15 (city) items; everything else stays hidden from players. A new shop is closed and does not buy. In the merchant window the GM can open or close it, reroll, pull in new compendium items and put a hidden item on the shelf (+1).
+
 ## 💬 Chat commands
 
 With [Chat Commander](https://foundryvtt.com/packages/_chatcommands) active, the system's chat commands get syntax help and suggestions taken from your world. Commands are read from the system, so new ones get help automatically. Don't enable the older *WFRP4e – Chat Commands* with it.
@@ -61,6 +63,7 @@ With [Chat Commander](https://foundryvtt.com/packages/_chatcommands) active, the
 ## ⚙️ Settings (world)
 
 * Each tab on/off, merchants and chat command hints
+* WFRP shops: armour rules (Core or Archives of the Empire III) and whether campaign compendiums are included
 * Whether obeying a Dark Whisper removes Corruption
 * Default character selection
 * Default visibility of group test cards

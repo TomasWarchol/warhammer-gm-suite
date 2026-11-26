@@ -3,6 +3,8 @@ import { buildCurrencies, detectMoneyNames, priceInBP, priceInGC } from "../scri
 import { fallbackRow, isAvailable, physicalTypes, pickStock, rollFormula, shuffle, stockQuantity } from "../scripts/trade/availability.mjs";
 import { buildIntegration } from "../scripts/trade/integration.mjs";
 import { ADAPTERS, adapterFor } from "../scripts/trade/systems/index.mjs";
+import { canonicalItemKey, isSupersededCoreItem, packModuleId, resolveArmourType, sortAndFilterPacks } from "../scripts/trade/sources.mjs";
+import { matchesShopPreset, planShopAvailability, settlementLimit, WFRP_SHOP_PRESETS } from "../scripts/trade/presets.mjs";
 
 // Tabela dostępności jak w WFRP4e 10.x
 const WFRP_TABLE = {
@@ -162,5 +164,88 @@ describe("adaptery systemów", () => {
     expect(data.UNSTACKABLE_ITEM_TYPES).toEqual(["weapon"]);
     expect(data.ITEM_COST_TRANSFORMER({ system: { cost: 40 } })).toBe(40);
     expect(data.ACTOR_CLASS_TYPE).toBe("npc");
+  });
+});
+
+describe("źródła i konflikty kompendiów (WFRP)", () => {
+  it("sortAndFilterPacks stawia Up in Arms przed Archives i Core oraz domyślnie pomija kampanie", () => {
+    const packs = [
+      { documentName: "Item", collection: "wfrp4e-core.items" },
+      { documentName: "Actor", collection: "wfrp4e-up-in-arms.actors" },
+      { documentName: "Item", collection: "wfrp4e-eis.items" },
+      { documentName: "Item", collection: "wfrp4e-up-in-arms.items" },
+      { documentName: "Item", collection: "wfrp4e-archives3.items" }
+    ];
+    expect(sortAndFilterPacks(packs).map(packModuleId)).toEqual(["wfrp4e-up-in-arms", "wfrp4e-archives3", "wfrp4e-core"]);
+    expect(sortAndFilterPacks(packs, { includeCampaignPacks: true }).map(packModuleId))
+      .toEqual(["wfrp4e-up-in-arms", "wfrp4e-archives3", "wfrp4e-core", "wfrp4e-eis"]);
+  });
+
+  it("resolveArmourType i canonicalItemKey rozróżniają Core vs Archives 3 oraz Babele", () => {
+    const models = { armour: {}, "wfrp4e-archives3.armour": {} };
+    const mods = new Set(["wfrp4e-archives3", "wfrp4e-up-in-arms"]);
+    expect(resolveArmourType("auto", models, mods)).toBe("wfrp4e-archives3.armour");
+    expect(resolveArmourType("core", models, mods)).toBe("armour");
+    expect(resolveArmourType("archives3", { armour: {} }, new Set())).toBe("armour");
+
+    expect(canonicalItemKey({ type: "weapon", name: "Halabarda", flags: { babele: { originalName: "Halberd" } } }))
+      .toBe("weapon|halberd");
+    expect(canonicalItemKey({ type: "wfrp4e-archives3.armour", name: "Napierśnik" }))
+      .toBe("armour|napierśnik");
+  });
+
+  it("isSupersededCoreItem pomija generyczne Hand Weapon gdy aktywne jest Up in Arms", () => {
+    const hw = { name: "Broń ręczna", flags: { babele: { originalName: "Hand Weapon" } } };
+    expect(isSupersededCoreItem(hw, "wfrp4e-core", new Set(["wfrp4e-up-in-arms"]))).toBe(true);
+    expect(isSupersededCoreItem(hw, "wfrp4e-core", new Set())).toBe(false);
+    expect(isSupersededCoreItem(hw, "wfrp4e-up-in-arms", new Set(["wfrp4e-up-in-arms"]))).toBe(false);
+  });
+});
+
+describe("predefiniowane sklepy WFRP i limity low-fantasy", () => {
+  it("limity osad: Wioska 5, Miasteczko 10, Miasto 15", () => {
+    expect(settlementLimit("MARKET.Village")).toBe(5);
+    expect(settlementLimit("MARKET.Town")).toBe(10);
+    expect(settlementLimit("MARKET.City")).toBe(15);
+    expect(settlementLimit("CUSTOM")).toBe(8);
+  });
+
+  it("dopasowanie wszystkich 8 szablonów sklepów i odrzucanie egzotycznych / pojazdów", () => {
+    expect(WFRP_SHOP_PRESETS).toHaveLength(8);
+    expect(matchesShopPreset({ type: "weapon", weaponGroup: "basic", rarity: "common" }, "blacksmith")).toBe(true);
+    expect(matchesShopPreset({ type: "weapon", weaponGroup: "bow", rarity: "common" }, "blacksmith")).toBe(false);
+    expect(matchesShopPreset({ type: "weapon", weaponGroup: "vehicle", rarity: "common" }, "fletcher")).toBe(false);
+    expect(matchesShopPreset({ type: "ammunition", ammunitionType: "bow", rarity: "common" }, "fletcher")).toBe(true);
+    expect(matchesShopPreset({ type: "ammunition", ammunitionType: "vehicle", rarity: "common" }, "fletcher")).toBe(false);
+    expect(matchesShopPreset({ type: "wfrp4e-archives3.armour", rarity: "scarce" }, "armourer", { armourType: "wfrp4e-archives3.armour" })).toBe(true);
+    expect(matchesShopPreset({ type: "armour", rarity: "common" }, "armourer", { armourType: "wfrp4e-archives3.armour" })).toBe(false);
+    expect(matchesShopPreset({ type: "trapping", trappingType: "drugsPoisonsHerbsDraughts", rarity: "common" }, "apothecary")).toBe(true);
+    expect(matchesShopPreset({ type: "trapping", trappingType: "foodAndDrink", rarity: "common" }, "tavern")).toBe(true);
+    expect(matchesShopPreset({ type: "trapping", trappingType: "clothingAccessories", rarity: "common" }, "tailor")).toBe(true);
+    expect(matchesShopPreset({ type: "container", rarity: "common" }, "general")).toBe(true);
+    expect(matchesShopPreset({ type: "trapping", trappingType: "booksAndDocuments", rarity: "common" }, "scribe")).toBe(true);
+    expect(matchesShopPreset({ type: "weapon", weaponGroup: "basic", rarity: "exotic" }, "blacksmith")).toBe(false);
+  });
+
+  it("planShopAvailability przestrzega limitu, ukrywa nadmiar i nie rusza ręcznych przedmiotów MG", () => {
+    const items = [
+      { id: "1", rarity: "common", managed: true },
+      { id: "2", rarity: "common", managed: true },
+      { id: "3", rarity: "common", managed: true },
+      { id: "4", rarity: "rare", managed: true },
+      { id: "manual", rarity: "exotic", managed: false }
+    ];
+    const wfrp = adapterFor("wfrp4e");
+    const plan = planShopAvailability(items, {
+      rowFor: (item) => wfrp.rowFor(ctx, "MARKET.Village", item.rarity),
+      limit: 2,
+      random: () => 0.25,
+      rollDice: () => 1
+    });
+    expect(plan.availableCount).toBe(2);
+    expect(plan.hiddenCount).toBe(2);
+    expect(plan.untouchedCount).toBe(1);
+    expect(plan.updates.find((u) => u.id === "manual")).toBeUndefined();
+    expect(plan.updates.filter((u) => !u.available).every((u) => u.quantity === 0 && !u.infinite)).toBe(true);
   });
 });

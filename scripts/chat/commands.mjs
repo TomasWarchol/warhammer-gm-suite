@@ -30,7 +30,7 @@ export const DEFAULT_ICON = "fa-terminal";
 
 /** Zwraca rejestr komend aktywnego systemu Warhammer albo `null`. */
 export function getCommandRegistry(gameRef = globalThis.game) {
-  const registry = gameRef?.[gameRef?.system?.id]?.commands ?? gameRef?.wfrp4e?.commands;
+  const registry = gameRef?.[gameRef?.system?.id]?.commands ?? gameRef?.oldworld?.commands ?? gameRef?.wfrp4e?.commands;
   return registry?.commands ? registry : null;
 }
 

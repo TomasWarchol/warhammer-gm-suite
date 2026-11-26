@@ -214,7 +214,16 @@
       "EnableMerchantsName": "Kupcy i Item Piles",
       "EnableMerchantsHint": "Ustawia waluty i ceny dla Item Piles oraz dodaje generator towaru kupców. Wymaga modułu Item Piles.",
       "EnableChatHintsName": "Podpowiedzi komend czatu",
-      "EnableChatHintsHint": "Pomoc składni i podpowiedzi do komend czatu systemu. Wymaga modułu Chat Commander."
+      "EnableChatHintsHint": "Pomoc składni i podpowiedzi do komend czatu systemu. Wymaga modułu Chat Commander.",
+      "ShopArmourRulesName": "Zasady pancerzy w sklepach",
+      "ShopArmourRulesHint": "Jakiego typu pancerzy używa sklep Płatnerza, gdy aktywny jest moduł Archives of the Empire Vol. III.",
+      "ShopArmour": {
+        "auto": "Automatycznie (Archives 3 jeśli aktywne, inaczej Podstawowe)",
+        "core": "Tylko Podstawowe",
+        "archives3": "Archiwa Imperium tom III"
+      },
+      "ShopIncludeCampaignPacksName": "Uwzględniaj kompendia kampanii w sklepach",
+      "ShopIncludeCampaignPacksHint": "Gdy wyłączone, kompendia kampanii i Zestawu Startowego są pomijane, aby uniknąć przedmiotów fabularnych i starych duplikatów."
     },
     "RollMode": {
       "publicroll": "Publiczny",
@@ -226,11 +235,60 @@
       "Title": "Kupcy",
       "Hint": "Uzupełnij towar kupca Item Piles według osady, typu świata albo rzadkości.",
       "Stock": "Uzupełnij",
-      "None": "W tym świecie nie ma jeszcze kupców Item Piles."
+      "None": "W tym świecie nie ma jeszcze kupców Item Piles.",
+      "CreateTitle": "Utwórz sklep z szablonu",
+      "CreateHint": "Tworzy kupca Item Piles (zamknięty, skup wyłączony) z posiadanych kompendiów i losuje dostępność dla wybranej osady.",
+      "Preset": "Rodzaj sklepu",
+      "Name": "Własna nazwa",
+      "NamePlaceholder": "Opcjonalnie (domyślnie nazwa sklepu)",
+      "Settlement": "Wielkość osady",
+      "Limit": "Limit dostępnych pozycji",
+      "Create": "Utwórz sklep",
+      "OpenShop": "Otwórz okno sklepu",
+      "Reroll": "Losuj dostępność dla osady",
+      "ToggleShop": "Otwórz lub zamknij sklep dla graczy"
     }
   },
   "WHTRADE": {
     "Title": "Item Piles: handel i kupcy dla Warhammera",
+    "Shop": {
+      "Folder": "Sklepy",
+      "RerollMenu": "Warhammer: losuj dostępność",
+      "CreateTitle": "Utwórz sklep z szablonu",
+      "Preset": "Rodzaj sklepu",
+      "Name": "Nazwa sklepu",
+      "NamePlaceholder": "Opcjonalnie (domyślnie nazwa sklepu)",
+      "Limit": "Limit dostępnych pozycji",
+      "CreateConfirm": "Utwórz sklep",
+      "Creating": "Dobieranie towaru z kompendiów…",
+      "Created": "Utworzono sklep {name}: {available} dostępnych z {total} pozycji.",
+      "RerollTitle": "Losuj dostępność: {merchant}",
+      "RerollHint": "Rzuca test dostępności WFRP dla każdego przedmiotu w sklepie. Niedostępne lub ponad limit dostają ilość 0 i są ukrywane przed graczami.",
+      "IncludeManual": "Przelosuj też przedmioty dodane ręcznie przez MG",
+      "RerollConfirm": "Losuj dostępność",
+      "Rerolled": "{merchant}: {available} dostępnych, {hidden} ukrytych.",
+      "Synced": "{merchant}: dodano {count} nowych pozycji z kompendiów (ukrytych do kolejnego losowania).",
+      "Status": {
+        "Open": "Otwarty",
+        "Closed": "Zamknięty"
+      },
+      "Bar": {
+        "Reroll": "Losuj",
+        "Sync": "Odśwież",
+        "SyncHint": "Dodaj nowe pasujące przedmioty z nowo włączonych kompendiów",
+        "Reveal": "Wystaw 1 sztukę dla graczy"
+      },
+      "Presets": {
+        "blacksmith": "Kowal",
+        "armourer": "Płatnerz",
+        "fletcher": "Łuczarz i Rusznikarz",
+        "apothecary": "Aptekarz i Zielarz",
+        "tavern": "Karczma i Gospoda",
+        "tailor": "Krawiec i Kuśnierz",
+        "general": "Kramarz",
+        "scribe": "Księgarz i Skryba"
+      }
+    },
     "Currency": {
       "wfrp4e": {
         "gc": "{#} zk",

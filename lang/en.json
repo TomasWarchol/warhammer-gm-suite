@@ -214,7 +214,16 @@
       "EnableMerchantsName": "Merchants and Item Piles",
       "EnableMerchantsHint": "Sets up currencies and prices for Item Piles and adds the merchant stock generator. Needs the Item Piles module.",
       "EnableChatHintsName": "Chat command hints",
-      "EnableChatHintsHint": "Syntax help and suggestions for the system's chat commands. Needs the Chat Commander module."
+      "EnableChatHintsHint": "Syntax help and suggestions for the system's chat commands. Needs the Chat Commander module.",
+      "ShopArmourRulesName": "Armour rules in predefined shops",
+      "ShopArmourRulesHint": "Which armour items the Armourer shop uses when Archives of the Empire Vol. III is installed.",
+      "ShopArmour": {
+        "auto": "Automatic (Archives 3 if active, else Core)",
+        "core": "Core rules only",
+        "archives3": "Archives of the Empire Vol. III"
+      },
+      "ShopIncludeCampaignPacksName": "Include campaign packs in shops",
+      "ShopIncludeCampaignPacksHint": "When off, campaign adventures and Starter Set compendiums are skipped to avoid story items and old duplicates."
     },
     "RollMode": {
       "publicroll": "Public",
@@ -226,11 +235,60 @@
       "Title": "Merchants",
       "Hint": "Fill an Item Piles merchant with goods by settlement, world type or rarity.",
       "Stock": "Stock",
-      "None": "No Item Piles merchants in this world yet."
+      "None": "No Item Piles merchants in this world yet.",
+      "CreateTitle": "Create thematic shop",
+      "CreateHint": "Creates an Item Piles merchant (closed, selling disabled) from your owned compendiums with availability rolled for the chosen settlement.",
+      "Preset": "Shop type",
+      "Name": "Custom name",
+      "NamePlaceholder": "Optional (defaults to shop type)",
+      "Settlement": "Settlement size",
+      "Limit": "Available items limit",
+      "Create": "Create shop",
+      "OpenShop": "Open shop window",
+      "Reroll": "Reroll availability for settlement",
+      "ToggleShop": "Open or close shop for players"
     }
   },
   "WHTRADE": {
     "Title": "Item Piles: Warhammer Trade & Merchants",
+    "Shop": {
+      "Folder": "Shops",
+      "RerollMenu": "Warhammer: reroll availability",
+      "CreateTitle": "Create thematic shop",
+      "Preset": "Shop type",
+      "Name": "Shop name",
+      "NamePlaceholder": "Optional (defaults to shop type)",
+      "Limit": "Available items limit",
+      "CreateConfirm": "Create shop",
+      "Creating": "Gathering goods from compendiums…",
+      "Created": "Created shop {name}: {available} available of {total} items.",
+      "RerollTitle": "Reroll availability: {merchant}",
+      "RerollHint": "Rolls WFRP availability for every item in the shop. Items that fail or exceed the limit become 0 qty and hidden from players.",
+      "IncludeManual": "Also reroll items added manually by the GM",
+      "RerollConfirm": "Reroll availability",
+      "Rerolled": "{merchant}: {available} available, {hidden} hidden.",
+      "Synced": "{merchant}: added {count} new compendium items (hidden until reroll).",
+      "Status": {
+        "Open": "Open",
+        "Closed": "Closed"
+      },
+      "Bar": {
+        "Reroll": "Reroll",
+        "Sync": "Sync",
+        "SyncHint": "Add new matching items from newly enabled compendiums",
+        "Reveal": "Make 1 item available to players"
+      },
+      "Presets": {
+        "blacksmith": "Blacksmith",
+        "armourer": "Armourer",
+        "fletcher": "Fletcher & Gunsmith",
+        "apothecary": "Apothecary & Herbalist",
+        "tavern": "Tavern & Inn",
+        "tailor": "Tailor & Clothier",
+        "general": "General Store",
+        "scribe": "Bookbinder & Scribe"
+      }
+    },
     "Currency": {
       "wfrp4e": {
         "gc": "{#} GC",

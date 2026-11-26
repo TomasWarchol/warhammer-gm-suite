@@ -112,4 +112,17 @@ describe("providers + wfrp-data", () => {
     expect(empty.conditions()).toEqual([]);
     expect(empty.settlements()).toEqual([]);
   });
+
+  it("obsługuje tabele z flagą aktywnego systemu (np. impmal) oraz przestrzeń oldworld", () => {
+    const impmalTable = { name: "Perils of the Warp", getFlag: (scope, flag) => (scope === "impmal" && flag === "key" ? "perils" : undefined) };
+    const towData = createWfrpData({
+      system: { id: "whtow" },
+      i18n: { localize: (k) => k },
+      tables: [impmalTable],
+      oldworld: { config: { conditions: { prone: "TOW.Prone" } } }
+    });
+    expect(towData.conditions()).toEqual([{ value: "TOW.Prone", label: "TOW.Prone", hint: "prone" }]);
+    const impmalData = createWfrpData({ system: { id: "impmal" }, i18n: { localize: (k) => k }, tables: [impmalTable] });
+    expect(impmalData.tables()).toEqual([{ value: "perils", label: "Perils of the Warp", columns: [] }]);
+  });
 });

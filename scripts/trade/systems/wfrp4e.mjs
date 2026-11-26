@@ -4,6 +4,7 @@
  */
 import { buildCurrencies, detectMoneyNames, priceInBP } from "../money.mjs";
 import { rarityStyles } from "../integration.mjs";
+import { settlementLimit, WFRP_SHOP_PRESETS } from "../presets.mjs";
 
 /** Rzadkość przedmiotu → wiersz tabeli dostępności systemu. */
 const RARITY_ROWS = {
@@ -52,7 +53,16 @@ export default {
   pricePath: "system.price.gc",
   unstackable: ["weapon", "armour", "container"],
   vaultStyles: rarityStyles("system.availability.value", { scarce: "42, 120, 180", rare: "130, 60, 200", exotic: "230, 150, 20" }),
-  indexFields: ["type", "system.availability.value", "system.price"],
+  indexFields: [
+    "type",
+    "system.availability.value",
+    "system.price",
+    "system.trappingType.value",
+    "system.weaponGroup.value",
+    "system.armorType.value",
+    "system.ammunitionType.value",
+    "flags.babele.originalName"
+  ],
 
   // Koszt w pensach (waluta główna) – liczby całkowite, bez błędów zaokrągleń
   cost: (system) => priceInBP(system.price),
@@ -63,7 +73,9 @@ export default {
   },
 
   rarityOf: (entry) => entry.system?.availability?.value,
-  hasPrice: (entry) => Boolean(entry.system?.price),
+  hasPrice: (entry) => priceInBP(entry.system?.price) > 0,
+  shopPresets: WFRP_SHOP_PRESETS,
+  settlementLimit,
 
   /** Miejsca z tabeli dostępności: wielkości osad. */
   locations: (ctx) => Object.keys(ctx.wfrp4e?.config?.availabilityTable ?? {}).map((key) => ({ key, label: ctx.i18n.localize(key) })),

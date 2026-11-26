@@ -28,7 +28,7 @@ Hooks.once("init", () => {
     get adapter() {
       return adapter;
     },
-    /** Otwiera panel; `tab`: "session", "group", "combat", "tokens" albo "whispers". */
+    /** Otwiera panel; `tab`: "session", "group", "combat", "tokens", "whispers" albo "merchants". */
     open: (tab) => GMDashboard.open(tab),
     awardXp: (actors, amount, reason) => awardXp(adapter, actors, amount, reason),
     refreshResource: (actors) => refreshResource(adapter, actors),
@@ -58,10 +58,19 @@ Hooks.on("getSceneControlButtons", (controls) => {
   };
 });
 
-// Panel pokazuje aktualne dane drużyny
+// Panel pokazuje aktualne dane drużyny, kupców i pul walki
 const refresh = foundry.utils.debounce(() => GMDashboard.refresh(), 150);
-Hooks.on("updateActor", refresh);
-Hooks.on("controlToken", refresh);
-// Pule walki i lista walczących
-for (const hook of ["updateSetting", "createCombat", "deleteCombat", "createCombatant", "deleteCombatant"]) Hooks.on(hook, refresh);
-Hooks.on(`${MODULE_ID}.settingsChanged`, refresh);
+for (const hook of [
+  "createActor",
+  "updateActor",
+  "deleteActor",
+  "updateUser",
+  "controlToken",
+  "updateSetting",
+  "createCombat",
+  "deleteCombat",
+  "createCombatant",
+  "deleteCombatant",
+  "item-piles-ready",
+  `${MODULE_ID}.settingsChanged`
+]) Hooks.on(hook, refresh);
